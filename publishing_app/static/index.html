@@ -1211,12 +1211,77 @@
       justify-content: flex-end;
       gap: 8px;
     }
+
+    /* Interactive User Guide Modal */
+    .guide-modal-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px 26px;
+      width: 94%;
+      max-width: 680px;
+      max-height: 85vh;
+      overflow-y: auto;
+      box-shadow: var(--shadow-lg);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .guide-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .guide-card {
+      background: var(--bg-muted);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .guide-card-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 13.5px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      color: var(--text-main);
+    }
+    .guide-card p {
+      font-size: 12.5px;
+      color: var(--text-secondary);
+      line-height: 1.55;
+      margin: 0;
+    }
+    .guide-code {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      padding: 7px 10px;
+      font-size: 11.5px;
+      color: var(--text-main);
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      cursor: pointer;
+      transition: 0.15s;
+    }
+    .guide-code:hover {
+      border-color: var(--brand);
+      color: var(--brand);
+    }
   </style>
 </head>
 <body>
 
   <div class="toast-container" id="toastContainer"></div>
 
+  <!-- Confirmation Modal -->
   <div class="modal-backdrop" id="confirmModal">
     <div class="modal-card">
       <h3 id="modalTitle">Xác nhận thao tác</h3>
@@ -1224,6 +1289,70 @@
       <div class="modal-actions">
         <button class="btn btn-outline" onclick="closeModal()">Hủy</button>
         <button class="btn btn-brand" id="modalConfirmBtn">Xác nhận</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Interactive User Guide Modal -->
+  <div class="modal-backdrop" id="helpModal" onclick="if(event.target===this)closeHelpModal()">
+    <div class="guide-modal-card">
+      <div style="display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);padding-bottom:12px;">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div class="plat-icon-box" style="background:var(--text-main);color:var(--bg-surface);"><i data-lucide="book-open"></i></div>
+          <div>
+            <h3 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;margin:0;">Cẩm Nang Sử Dụng VTECH AI Studio</h3>
+            <span style="font-size:12px;color:var(--text-muted);">Chỉ cần 3 thao tác để tạo, chuẩn hóa SEO và hẹn giờ đăng bài tự động</span>
+          </div>
+        </div>
+        <button class="icon-btn" onclick="closeHelpModal()"><i data-lucide="x"></i></button>
+      </div>
+
+      <div class="guide-grid">
+        <div class="guide-card">
+          <div class="guide-card-title">
+            <i data-lucide="paperclip" style="color:var(--brand);"></i>
+            <span>Cách 1: Đăng từ file Word (.docx) + Ảnh</span>
+          </div>
+          <p>Bấm biểu tượng <strong>Kẹp giấy (📎)</strong> ở ô chat, chọn file <code>.docx</code> và các ảnh trong máy tính, nhập giờ muốn đăng rồi bấm <strong>Gửi</strong>.</p>
+          <p style="font-size:11.5px;color:var(--text-muted);">Hệ thống tự tách H1, H2, bảng SEO, tự nén ảnh sang <code>.webp</code> và điền sẵn lịch hẹn.</p>
+        </div>
+
+        <div class="guide-card">
+          <div class="guide-card-title">
+            <i data-lucide="sparkles" style="color:var(--brand);"></i>
+            <span>Cách 2: Nhờ AI tự viết bài chuẩn VTECH</span>
+          </div>
+          <p>Gõ yêu cầu tự nhiên vào ô chat. AI đã học sẵn dữ liệu thật của <strong>VTECH FILM</strong> (mã phim VT7091, VT0595, giá, công trình thật, hotline).</p>
+          <div class="guide-code" onclick="runGuidePrompt('Viết bài về dán phim cách nhiệt chung cư Quận 8 chống nắng hướng Tây cho web chính')">
+            <span>"Viết bài phim cách nhiệt chung cư Q8..."</span>
+            <span style="color:var(--brand);font-weight:700;white-space:nowrap;">Thử ngay →</span>
+          </div>
+        </div>
+
+        <div class="guide-card">
+          <div class="guide-card-title">
+            <i data-lucide="calendar-clock" style="color:var(--brand);"></i>
+            <span>Cách 3: Hẹn giờ &amp; Lặp lại hàng tuần</span>
+          </div>
+          <p>Chọn giờ bằng lịch <strong>Flatpickr</strong> ở giữa màn hình hoặc nhắn trực tiếp trong khung chat để hẹn giờ đăng 1 lần hoặc lặp lại mỗi ngày.</p>
+          <div class="guide-code" onclick="runGuidePrompt('Lên lịch đăng bài Facebook mỗi ngày trong tuần tới.')">
+            <span>"Lên lịch Facebook mỗi ngày tuần tới"</span>
+            <span style="color:var(--brand);font-weight:700;white-space:nowrap;">Thử ngay →</span>
+          </div>
+        </div>
+
+        <div class="guide-card">
+          <div class="guide-card-title">
+            <i data-lucide="shield-check" style="color:var(--brand);"></i>
+            <span>Cách 4: Chế độ Nháp vs. Đăng Thật</span>
+          </div>
+          <p>• <strong>Chế độ Nháp (Sandbox):</strong> Dùng để thử nghiệm thoải mái, không làm ảnh hưởng website thật.<br>• <strong>Đăng thật (Live Web):</strong> Đẩy thẳng ảnh <code>.webp</code> và bài viết lên WordPress <code>vtechfilm.com</code>.</p>
+        </div>
+      </div>
+
+      <div style="background:var(--brand-soft);border:1px solid var(--brand-border);border-radius:10px;padding:11px 14px;font-size:12.5px;color:var(--text-main);display:flex;align-items:center;justify-content:space-between;">
+        <span><strong>Mẹo nhanh:</strong> Sau khi AI tạo bài xong, bạn chỉ cần bấm nút <strong>"✓ Duyệt &amp; Lên lịch ngay"</strong> ngay dưới tin nhắn chat là hoàn tất!</span>
+        <button class="btn btn-dark btn-sm" onclick="closeHelpModal()">Đã hiểu</button>
       </div>
     </div>
   </div>
@@ -1286,6 +1415,11 @@
         </select>
         <i data-lucide="chevron-down" class="select-chevron"></i>
       </div>
+
+      <button class="btn btn-outline btn-sm" onclick="openHelpModal()" title="Xem hướng dẫn sử dụng nhanh" style="height:34px;">
+        <i data-lucide="help-circle"></i>
+        <span>Hướng dẫn</span>
+      </button>
 
       <button class="icon-btn" onclick="toggleTheme()" title="Giao diện Sáng / Tối" id="themeBtn">
         <i data-lucide="moon"></i>
@@ -1701,6 +1835,20 @@
     function closeModal() {
       document.getElementById('confirmModal').style.display = 'none';
       pendingModalAction = null;
+    }
+
+    function openHelpModal() {
+      document.getElementById('helpModal').style.display = 'flex';
+      refreshIcons();
+    }
+
+    function closeHelpModal() {
+      document.getElementById('helpModal').style.display = 'none';
+    }
+
+    function runGuidePrompt(text) {
+      closeHelpModal();
+      sendQuick(text);
     }
 
     function toggleTheme() {
