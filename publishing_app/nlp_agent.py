@@ -491,10 +491,10 @@ def generate_content_draft(
             f'alt="{img_alt}" loading="lazy" /></figure>\n'
             f"<h2>2. Công trình thực tế &amp; lý do khách hàng tin chọn {focus_kw} tại VTECH FILM</h2>\n"
             f"<p>Trong thực tế thi công tại TP.HCM, đội ngũ thợ 3–5 năm kinh nghiệm của VTECH FILM đã triển khai thành công nhiều dự án tiêu biểu như "
-            f'<a href="https://vtechfilm.com{cs["slug"]}/"><strong>{cs["project"]} ({cs["area"]})</strong></a> sử dụng mã phim <strong>{cs["code"]}</strong> '
+            f'<a href="https://vtechfilm.com{cs["slug"]}/" style="color: #e06400; font-weight: 600; text-decoration: underline;"><strong>{cs["project"]} ({cs["area"]})</strong></a> sử dụng mã phim <strong>{cs["code"]}</strong> '
             f"({cs['highlight']}). Ngoài ra, quý khách có thể xem thêm tại chuyên mục "
-            f'<a href="https://vtechfilm.com/giai-phap-thi-cong/">Nhật ký thi công</a> và '
-            f'<a href="https://vtechfilm.com/tra-cuu-bao-hanh/">Tra cứu bảo hành điện tử</a> trên website.</p>\n'
+            f'<a href="https://vtechfilm.com/giai-phap-thi-cong/" style="color: #e06400; font-weight: 600; text-decoration: underline;">Nhật ký thi công</a> và '
+            f'<a href="https://vtechfilm.com/tra-cuu-bao-hanh/" style="color: #e06400; font-weight: 600; text-decoration: underline;">Tra cứu bảo hành điện tử</a> trên website.</p>\n'
             f"<ul>\n"
             f"  <li><strong>Chống nóng tối đa:</strong> Các mã chủ lực như VT0595, VT0591, VT0586 đạt tổng cản nhiệt TSER từ 92,7% đến 94%.</li>\n"
             f"  <li><strong>Giữ sáng tự nhiên cho văn phòng &amp; kính lái:</strong> Các mã VT7091 (VLT 67%), VT6099 (VLT 60%), VT5095 (VLT 50,5%) giữ tầm nhìn thoáng đãng.</li>\n"

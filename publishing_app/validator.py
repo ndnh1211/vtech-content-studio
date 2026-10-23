@@ -245,8 +245,14 @@ def import_from_docx_pipeline(
             placeholder_to_webp[img_p.name] = item_info
 
         # Replace <!--image:...--> placeholders with converted .webp images
+        # IMPORTANT: Skip the 1st cover image (image1) inside body HTML because the theme
+        # automatically renders featured_image at the top of the post!
+        first_placeholder_name = extracted_imgs[0].name if extracted_imgs else None
+
         def _replace_img_placeholder(match: re.Match) -> str:
             orig_name = match.group(1)
+            if first_placeholder_name and orig_name == first_placeholder_name:
+                return ""
             mapped = placeholder_to_webp.get(orig_name)
             if mapped:
                 return (
@@ -260,16 +266,17 @@ def import_from_docx_pipeline(
 
         clean_html = re.sub(r"<!--image:([^>]+)-->", _replace_img_placeholder, content_html)
 
-        # If DOCX had no inline image placeholders, but folder had images, insert them evenly after H2 sections
-        if not extracted_imgs and media_items:
+        # If DOCX had no inline image placeholders, but folder had images, insert body images (from index 1 onwards) after H2 sections
+        body_media_items = media_items[1:] if len(media_items) > 1 else []
+        if not extracted_imgs and body_media_items:
             h2_positions = [m.end() for m in re.finditer(r"</h2>\s*(?:<p>.*?</p>)?", clean_html, flags=re.DOTALL)]
             if h2_positions:
                 parts = []
                 last_idx = 0
                 for i, pos in enumerate(h2_positions):
                     parts.append(clean_html[last_idx:pos])
-                    if i < len(media_items):
-                        m_item = media_items[i]
+                    if i < len(body_media_items):
+                        m_item = body_media_items[i]
                         parts.append(
                             f'\n<figure class="wp-block-image"><img src="{m_item["url"]}" '
                             f'alt="{m_item["alt"]}" loading="lazy" /></figure>'
@@ -277,6 +284,13 @@ def import_from_docx_pipeline(
                     last_idx = pos
                 parts.append(clean_html[last_idx:])
                 clean_html = "".join(parts)
+
+        # Highlight all <a href="..."> links in VTECH Orange (#e06400) so they stand out in the article
+        def _highlight_link(m_link: re.Match) -> str:
+            attrs = re.sub(r'\s*style="[^"]*"', "", m_link.group(1), flags=re.IGNORECASE)
+            return f'<a{attrs} style="color: #e06400; font-weight: 600; text-decoration: underline;">'
+
+        clean_html = re.sub(r"<a(\s+[^>]+)>", _highlight_link, clean_html, flags=re.IGNORECASE)
 
         return {
             "title": title,
