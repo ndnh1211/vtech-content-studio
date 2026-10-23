@@ -1,0 +1,2167 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VTECH Content Studio — Trợ Lý AI Viết Bài &amp; Lên Lịch Tự Động</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-app: #f4f6fb;
+      --bg-surface: #ffffff;
+      --bg-subtle: #f8fafc;
+      --bg-hover: #f1f5f9;
+      --border: #e2e8f0;
+      --border-strong: #cbd5e1;
+      --text-main: #0f172a;
+      --text-secondary: #475569;
+      --text-muted: #64748b;
+      --primary: #f97316;
+      --primary-hover: #ea580c;
+      --primary-soft: #fff7ed;
+      --primary-border: #fed7aa;
+      --accent-blue: #2563eb;
+      --accent-blue-soft: #eff6ff;
+      --success: #10b981;
+      --success-soft: #ecfdf5;
+      --warning: #f59e0b;
+      --warning-soft: #fffbeb;
+      --danger: #ef4444;
+      --danger-soft: #fef2f2;
+      --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.05);
+      --shadow-md: 0 4px 14px rgba(15, 23, 42, 0.07);
+      --shadow-lg: 0 12px 32px rgba(15, 23, 42, 0.12);
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+    }
+
+    [data-theme="dark"] {
+      --bg-app: #0b1120;
+      --bg-surface: #151f32;
+      --bg-subtle: #1e293b;
+      --bg-hover: #263449;
+      --border: #2e3d52;
+      --border-strong: #3e506b;
+      --text-main: #f8fafc;
+      --text-secondary: #cbd5e1;
+      --text-muted: #94a3b8;
+      --primary-soft: rgba(249, 115, 22, 0.14);
+      --primary-border: rgba(249, 115, 22, 0.35);
+      --accent-blue-soft: rgba(37, 99, 235, 0.15);
+      --success-soft: rgba(16, 185, 129, 0.14);
+      --warning-soft: rgba(245, 158, 11, 0.14);
+      --danger-soft: rgba(239, 68, 68, 0.14);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Be Vietnam Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: var(--bg-app);
+      color: var(--text-main);
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Top Navigation Bar ── */
+    .topbar {
+      height: 62px;
+      background: var(--bg-surface);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 0 20px;
+      flex-shrink: 0;
+      box-shadow: var(--shadow-sm);
+      z-index: 20;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+    .brand-logo {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #f97316, #ea580c);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 17px;
+      box-shadow: 0 4px 10px rgba(249, 115, 22, 0.3);
+      flex-shrink: 0;
+    }
+    .brand-title {
+      font-weight: 700;
+      font-size: 15px;
+      letter-spacing: -0.2px;
+      white-space: nowrap;
+    }
+    .brand-sub {
+      font-size: 11.5px;
+      color: var(--text-muted);
+      margin-top: 1px;
+      white-space: nowrap;
+    }
+
+    /* Workflow Stepper in Header */
+    .stepper {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      background: var(--bg-subtle);
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .step-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-muted);
+      padding: 4px 9px;
+      border-radius: 999px;
+      transition: 0.2s;
+      white-space: nowrap;
+    }
+    .step-item.active {
+      background: var(--primary-soft);
+      color: var(--primary);
+      border: 1px solid var(--primary-border);
+    }
+    .step-item.done {
+      color: var(--success);
+    }
+    .step-num {
+      width: 19px;
+      height: 19px;
+      border-radius: 50%;
+      background: var(--border);
+      color: var(--text-secondary);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .step-item.active .step-num {
+      background: var(--primary);
+      color: #fff;
+    }
+    .step-item.done .step-num {
+      background: var(--success);
+      color: #fff;
+    }
+    .step-arrow { color: var(--border-strong); font-size: 12px; }
+
+    .topbar-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+    .control-pill {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
+      padding: 4px 8px;
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      color: var(--text-secondary);
+      white-space: nowrap;
+    }
+    .control-pill select {
+      border: none;
+      background: transparent;
+      color: var(--text-main);
+      font-weight: 600;
+      font-size: 12px;
+      padding: 2px;
+      cursor: pointer;
+    }
+    .control-pill select:focus { outline: none; }
+    .theme-btn {
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      transition: 0.15s;
+    }
+    .theme-btn:hover { background: var(--bg-hover); color: var(--text-main); }
+
+    /* ── Main 3-Column Workspace Layout ── */
+    .workspace-grid {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 390px 1fr 390px;
+      gap: 16px;
+      padding: 16px;
+      overflow: hidden;
+    }
+
+    .card-col {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .col-header {
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--bg-surface);
+      flex-shrink: 0;
+    }
+    .col-header-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 700;
+      font-size: 14.5px;
+    }
+    .col-header-sub {
+      font-size: 12px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    /* ── Left Column: Friendly AI Chat Assistant ── */
+    .prompt-suggestions {
+      padding: 10px 14px;
+      background: var(--bg-subtle);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .prompt-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      color: var(--text-muted);
+    }
+    .prompt-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .chip {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      font-size: 12px;
+      font-weight: 500;
+      padding: 6px 11px;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+    }
+    .chip:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+      background: var(--primary-soft);
+      transform: translateY(-1px);
+    }
+
+    .chat-stream {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      scroll-behavior: smooth;
+    }
+    .chat-row {
+      display: flex;
+      gap: 10px;
+      align-items: flex-end;
+    }
+    .chat-row.user {
+      flex-direction: row-reverse;
+    }
+    .avatar {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .avatar.ai {
+      background: var(--primary-soft);
+      color: var(--primary);
+      border: 1px solid var(--primary-border);
+    }
+    .avatar.user {
+      background: var(--accent-blue);
+      color: #fff;
+    }
+    .bubble {
+      max-width: 84%;
+      padding: 12px 15px;
+      border-radius: 14px;
+      font-size: 13.5px;
+      line-height: 1.55;
+      word-break: break-word;
+    }
+    .chat-row.assistant .bubble {
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
+      color: var(--text-main);
+      border-bottom-left-radius: 4px;
+    }
+    .chat-row.user .bubble {
+      background: linear-gradient(135deg, #f97316, #ea580c);
+      color: #fff;
+      border-bottom-right-radius: 4px;
+      box-shadow: 0 3px 10px rgba(249, 115, 22, 0.22);
+    }
+    .bubble-actions {
+      margin-top: 10px;
+      padding-top: 8px;
+      border-top: 1px dashed var(--border);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .typing-indicator {
+      display: none;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      font-size: 12.5px;
+      color: var(--text-muted);
+      font-style: italic;
+    }
+    .dot-pulse {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--primary);
+      animation: pulse 1s infinite alternate;
+    }
+    @keyframes pulse {
+      from { opacity: 0.3; transform: scale(0.8); }
+      to { opacity: 1; transform: scale(1.2); }
+    }
+
+    .chat-composer {
+      padding: 10px 12px;
+      background: var(--bg-surface);
+      border-top: 1px solid var(--border);
+    }
+    .composer-inner {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--bg-subtle);
+      border: 1.5px solid var(--border-strong);
+      border-radius: 14px;
+      padding: 5px 6px 5px 8px;
+      transition: all 0.15s ease;
+    }
+    .composer-inner:focus-within {
+      border-color: var(--primary);
+      background: var(--bg-surface);
+      box-shadow: 0 0 0 3px var(--primary-soft);
+    }
+    .attach-btn {
+      width: 34px;
+      height: 34px;
+      border-radius: 9px;
+      border: none;
+      background: transparent;
+      color: var(--text-secondary);
+      font-size: 17px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: 0.15s;
+    }
+    .attach-btn:hover {
+      background: var(--bg-hover);
+      color: var(--primary);
+    }
+    .composer-inner textarea {
+      flex: 1;
+      border: none;
+      background: transparent;
+      color: var(--text-main);
+      padding: 6px 4px;
+      font-size: 13.5px;
+      font-family: inherit;
+      resize: none;
+      height: 32px;
+      max-height: 110px;
+      line-height: 20px;
+      overflow-y: hidden;
+    }
+    .composer-inner textarea:focus {
+      outline: none;
+    }
+    .send-btn {
+      height: 36px;
+      padding: 0 14px;
+      border-radius: 10px;
+      border: none;
+      background: linear-gradient(135deg, #f97316, #ea580c);
+      color: #fff;
+      font-weight: 700;
+      font-size: 13px;
+      font-family: inherit;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      flex-shrink: 0;
+      box-shadow: 0 2px 6px rgba(249, 115, 22, 0.25);
+      transition: 0.15s;
+    }
+    .send-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 10px rgba(249, 115, 22, 0.35);
+    }
+
+    /* ── Buttons ── */
+    .btn {
+      border: none;
+      border-radius: 10px;
+      padding: 9px 15px;
+      font-size: 13px;
+      font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+    }
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, #f97316, #ea580c);
+      color: #fff;
+      box-shadow: 0 2px 8px rgba(249, 115, 22, 0.25);
+    }
+    .btn-primary:hover:not(:disabled) {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(249, 115, 22, 0.35);
+    }
+    .btn-success {
+      background: var(--success);
+      color: #fff;
+      box-shadow: 0 2px 8px rgba(16, 185, 129, 0.25);
+    }
+    .btn-success:hover:not(:disabled) {
+      background: #059669;
+      transform: translateY(-1px);
+    }
+    .btn-blue {
+      background: var(--accent-blue);
+      color: #fff;
+      box-shadow: 0 2px 8px rgba(37, 99, 235, 0.22);
+    }
+    .btn-blue:hover:not(:disabled) {
+      background: #1d4ed8;
+      transform: translateY(-1px);
+    }
+    .btn-outline {
+      background: var(--bg-surface);
+      color: var(--text-secondary);
+      border: 1px solid var(--border-strong);
+    }
+    .btn-outline:hover:not(:disabled) {
+      background: var(--bg-hover);
+      color: var(--text-main);
+    }
+    .btn-danger-ghost {
+      background: var(--danger-soft);
+      color: var(--danger);
+      border: 1px solid rgba(239, 68, 68, 0.25);
+    }
+    .btn-danger-ghost:hover:not(:disabled) {
+      background: var(--danger);
+      color: #fff;
+    }
+    .btn-sm {
+      padding: 6px 11px;
+      font-size: 12px;
+      border-radius: 8px;
+    }
+
+    /* ── Center Column: Friendly Content Studio ── */
+    .center-mode-tabs {
+      display: flex;
+      gap: 6px;
+      background: var(--bg-subtle);
+      padding: 4px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+    }
+    .mode-tab {
+      border: none;
+      background: transparent;
+      color: var(--text-secondary);
+      padding: 6px 12px;
+      border-radius: 7px;
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      transition: 0.15s;
+    }
+    .mode-tab.active {
+      background: var(--bg-surface);
+      color: var(--primary);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .studio-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 18px 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* Empty State when no article selected */
+    .empty-studio {
+      margin: auto;
+      text-align: center;
+      max-width: 440px;
+      padding: 36px 20px;
+    }
+    .empty-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 20px;
+      background: var(--primary-soft);
+      color: var(--primary);
+      font-size: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+    }
+    .empty-studio h3 {
+      font-size: 18px;
+      margin-bottom: 8px;
+    }
+    .empty-studio p {
+      font-size: 13.5px;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 18px;
+    }
+
+    /* Status & Platform Banner */
+    .article-top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding: 12px 16px;
+      border-radius: var(--radius-md);
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
+    }
+    .platform-selector-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+    .plat-card {
+      border: 1.5px solid var(--border);
+      background: var(--bg-surface);
+      border-radius: 10px;
+      padding: 10px 12px;
+      cursor: pointer;
+      transition: 0.15s;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+    }
+    .plat-card:hover {
+      border-color: var(--border-strong);
+      background: var(--bg-subtle);
+    }
+    .plat-card.selected {
+      border-color: var(--primary);
+      background: var(--primary-soft);
+    }
+    .plat-icon {
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+    .plat-name {
+      font-size: 12.5px;
+      font-weight: 700;
+      line-height: 1.25;
+    }
+    .plat-domain {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    /* Status Pill */
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .status-draft, .status-pending_approval {
+      background: var(--warning-soft);
+      color: #b45309;
+      border: 1px solid rgba(245, 158, 11, 0.3);
+    }
+    .status-approved {
+      background: var(--accent-blue-soft);
+      color: var(--accent-blue);
+      border: 1px solid rgba(37, 99, 235, 0.3);
+    }
+    .status-scheduled, .status-queued {
+      background: #f3e8ff;
+      color: #7e22ce;
+      border: 1px solid #d8b4fe;
+    }
+    .status-published, .status-succeeded {
+      background: var(--success-soft);
+      color: #047857;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+    .status-failed {
+      background: var(--danger-soft);
+      color: var(--danger);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+
+    /* Realistic Live Article / Facebook Card Preview */
+    .live-preview-wrapper {
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      background: var(--bg-surface);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+    }
+    .browser-chrome {
+      background: var(--bg-subtle);
+      border-bottom: 1px solid var(--border);
+      padding: 8px 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .browser-dots {
+      display: flex;
+      gap: 5px;
+    }
+    .browser-dots span {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--border-strong);
+    }
+    .browser-dots span:nth-child(1) { background: #f87171; }
+    .browser-dots span:nth-child(2) { background: #fbbf24; }
+    .browser-dots span:nth-child(3) { background: #34d399; }
+    .browser-url {
+      flex: 1;
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 4px 10px;
+      font-size: 12px;
+      color: var(--text-muted);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .article-render {
+      padding: 24px 28px;
+      color: var(--text-main);
+      line-height: 1.75;
+      font-size: 14.5px;
+    }
+    .article-render h1.preview-h1 {
+      font-size: 22px;
+      line-height: 1.35;
+      margin-bottom: 14px;
+      color: #e06400;
+    }
+    .article-render h2 {
+      font-size: 17.5px;
+      margin: 18px 0 8px;
+      color: #0b2e6f;
+    }
+    [data-theme="dark"] .article-render h2 {
+      color: #60a5fa;
+    }
+    .article-render p, .article-render ul {
+      margin-bottom: 12px;
+      color: var(--text-secondary);
+    }
+    .article-render ul { padding-left: 22px; }
+    .article-render table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 14px 0;
+      font-size: 13px;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+    .article-render th {
+      background: #0b2e6f;
+      color: #fff;
+      text-align: left;
+      padding: 9px 12px;
+      font-weight: 600;
+    }
+    .article-render td {
+      padding: 8px 12px;
+      border-bottom: 1px solid var(--border);
+      color: var(--text-secondary);
+    }
+    .article-render tr:nth-child(even) td {
+      background: var(--bg-subtle);
+    }
+    .article-render img {
+      max-width: 100%;
+      border-radius: 10px;
+      margin: 10px 0;
+      border: 1px solid var(--border);
+    }
+
+    /* Google SERP Preview Card */
+    .serp-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 16px 20px;
+    }
+    .serp-label {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .serp-url {
+      font-size: 12.5px;
+      color: #0f766e;
+      margin-bottom: 3px;
+    }
+    .serp-title {
+      font-size: 17px;
+      color: #1d4ed8;
+      font-weight: 600;
+      margin-bottom: 4px;
+      line-height: 1.3;
+    }
+    [data-theme="dark"] .serp-title { color: #60a5fa; }
+    [data-theme="dark"] .serp-url { color: #34d399; }
+    .serp-desc {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    /* Friendly Form Inputs */
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .field-label {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--text-secondary);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .char-counter {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text-muted);
+    }
+    .char-counter.good { color: var(--success); }
+    .char-counter.warn { color: var(--warning); }
+    .field-input {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-strong);
+      color: var(--text-main);
+      border-radius: 9px;
+      padding: 9px 12px;
+      font-size: 13.5px;
+      font-family: inherit;
+      transition: 0.15s;
+    }
+    .field-input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px var(--primary-soft);
+    }
+
+    /* Friendly Schedule Card */
+    .schedule-box {
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .schedule-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .quick-time-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+    }
+
+    /* Preflight Checklist Card */
+    .checklist-card {
+      background: var(--bg-subtle);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+    }
+    .score-ring {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 700;
+      font-size: 13px;
+      padding: 3px 10px;
+      border-radius: 999px;
+    }
+
+    /* Bottom Action Footer */
+    .studio-footer {
+      padding: 14px 20px;
+      background: var(--bg-surface);
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    /* ── Right Column: Posts & Visual Schedule Queue ── */
+    .seg-tabs {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 4px;
+      padding: 10px 14px;
+      background: var(--bg-subtle);
+      border-bottom: 1px solid var(--border);
+    }
+    .seg-btn {
+      border: none;
+      background: transparent;
+      color: var(--text-secondary);
+      padding: 7px 8px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      transition: 0.15s;
+    }
+    .seg-btn.active {
+      background: var(--bg-surface);
+      color: var(--primary);
+      box-shadow: var(--shadow-sm);
+    }
+    .queue-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .post-card {
+      background: var(--bg-surface);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .post-card:hover {
+      border-color: var(--border-strong);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-sm);
+    }
+    .post-card.active {
+      border-color: var(--primary);
+      background: var(--primary-soft);
+    }
+    .post-card-title {
+      font-size: 13.5px;
+      font-weight: 700;
+      line-height: 1.4;
+      margin-bottom: 8px;
+      color: var(--text-main);
+    }
+    .post-card-meta {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      font-size: 11.5px;
+      color: var(--text-muted);
+    }
+
+    /* ── Toast & Custom Modal ── */
+    .toast-container {
+      position: fixed;
+      top: 76px;
+      right: 24px;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .toast {
+      background: var(--bg-surface);
+      color: var(--text-main);
+      border-left: 4px solid var(--primary);
+      border-radius: 10px;
+      padding: 12px 16px;
+      box-shadow: var(--shadow-lg);
+      font-size: 13px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 280px;
+      max-width: 400px;
+      animation: slideIn 0.2s ease;
+    }
+    .toast.success { border-left-color: var(--success); }
+    .toast.error { border-left-color: var(--danger); }
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(20px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.55);
+      backdrop-filter: blur(3px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 9998;
+    }
+    .modal-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      width: 92%;
+      max-width: 420px;
+      box-shadow: var(--shadow-lg);
+    }
+    .modal-card h3 {
+      font-size: 17px;
+      margin-bottom: 8px;
+    }
+    .modal-card p {
+      font-size: 13.5px;
+      color: var(--text-secondary);
+      line-height: 1.55;
+      margin-bottom: 20px;
+    }
+    .modal-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- Friendly Confirmation Modal -->
+  <div class="modal-backdrop" id="confirmModal">
+    <div class="modal-card">
+      <h3 id="modalTitle">Xác nhận thao tác</h3>
+      <p id="modalMessage">Bạn có chắc chắn muốn thực hiện thao tác này?</p>
+      <div class="modal-actions">
+        <button class="btn btn-outline" onclick="closeModal()">Hủy bỏ</button>
+        <button class="btn btn-primary" id="modalConfirmBtn">Đồng ý</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Top Navigation Header -->
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-logo">V</div>
+      <div>
+        <div class="brand-title">VTECH AI Content Studio</div>
+        <div class="brand-sub">Trợ lý Viết bài, Chuẩn hóa SEO &amp; Lên lịch Tự động</div>
+      </div>
+    </div>
+
+    <!-- Guided 4-Step Progress Bar -->
+    <div class="stepper" id="workflowStepper">
+      <div class="step-item active" id="step1">
+        <span class="step-num">1</span>
+        <span>Yêu cầu AI</span>
+      </div>
+      <span class="step-arrow">›</span>
+      <div class="step-item" id="step2">
+        <span class="step-num">2</span>
+        <span>Xem &amp; Chỉnh sửa</span>
+      </div>
+      <span class="step-arrow">›</span>
+      <div class="step-item" id="step3">
+        <span class="step-num">3</span>
+        <span>Duyệt bài</span>
+      </div>
+      <span class="step-arrow">›</span>
+      <div class="step-item" id="step4">
+        <span class="step-num">4</span>
+        <span>Đăng / Hẹn giờ</span>
+      </div>
+    </div>
+
+    <div class="topbar-controls">
+      <div class="control-pill" title="Chế độ xuất bản: Nháp thử nghiệm hoặc Đăng thật lên Website">
+        <span>⚡</span>
+        <select id="modeSelect" onchange="togglePublishMode()">
+          <option value="sandbox">🧪 Chế độ Nháp (An toàn)</option>
+          <option value="live">🌐 Đăng Thật Lên Web (Live)</option>
+        </select>
+      </div>
+      <div class="control-pill" title="Múi giờ lên lịch">
+        <span>🌏</span>
+        <select id="tzSelect">
+          <option value="Asia/Ho_Chi_Minh">Giờ Việt Nam (GMT+7)</option>
+          <option value="UTC">Giờ Quốc tế (UTC)</option>
+        </select>
+      </div>
+      <div class="control-pill" title="Không gian làm việc (Workspace)">
+        <span>🏢</span>
+        <select id="wsSelect" onchange="switchWorkspace()">
+          <option value="vtech-session-main-2026">VTECH Team (Chính)</option>
+          <option value="vtech-session-editor-2026">VTECH Biên tập viên</option>
+          <option value="agency-session-isolated-2026">Agency Đối tác (Độc lập)</option>
+        </select>
+      </div>
+      <button class="theme-btn" onclick="toggleTheme()" title="Đổi giao diện Sáng / Tối" id="themeBtn">🌙</button>
+    </div>
+  </header>
+
+  <!-- Main 3-Column Studio -->
+  <main class="workspace-grid">
+
+    <!-- COLUMN 1: AI Chat Assistant -->
+    <section class="card-col">
+      <div class="col-header">
+        <div>
+          <div class="col-header-title">💬 Trợ Lý Nội Dung AI</div>
+          <div class="col-header-sub">Hiểu tiếng Việt &amp; tiếng Anh tự nhiên</div>
+        </div>
+        <span class="status-pill status-published" style="font-size:11px;padding:3px 9px;">● Trực tuyến</span>
+      </div>
+
+      <div class="prompt-suggestions">
+        <div class="prompt-label">💡 Gợi ý mẫu (Bấm để thử ngay):</div>
+        <div class="prompt-chips">
+          <button class="chip" onclick="sendQuick('Viết bài giới thiệu sản phẩm mới và đăng lên Facebook.')">📱 Bài sản phẩm mới (Facebook)</button>
+          <button class="chip" onclick="sendQuick('Tạo 3 bài SEO cho website về camera an ninh.')">🔍 Tạo 3 bài SEO Website</button>
+          <button class="chip" onclick="sendQuick('Đăng bài này lên website vào 9 giờ sáng mai.')">⏰ Hẹn đăng 9h sáng mai</button>
+          <button class="chip" onclick="sendQuick('Lên lịch đăng bài Facebook mỗi ngày trong tuần tới.')">🗓️ Lịch Facebook cả tuần</button>
+        </div>
+      </div>
+
+      <div class="chat-stream" id="chatMessages">
+        <div class="chat-row assistant">
+          <div class="avatar ai">AI</div>
+          <div class="bubble">
+            <strong>Xin chào bạn! 👋</strong><br>
+            Mình là trợ lý viết bài và lên lịch tự động của <strong>VTECH</strong>.<br><br>
+            Bạn chỉ cần nhắn tự nhiên điều bạn muốn, ví dụ:<br>
+            • <em>"Viết bài về phim cách nhiệt văn phòng cho website chính"</em><br>
+            • <em>"Tạo 3 bài SEO cho website về camera an ninh"</em><br>
+            • <em>"Đăng bài này vào 9 giờ sáng mai"</em><br><br>
+            Mình sẽ tự động soạn bài, kiểm tra chuẩn SEO và cho bạn xem trước trước khi đăng!
+          </div>
+        </div>
+      </div>
+
+      <div class="typing-indicator" id="typingIndicator">
+        <span class="dot-pulse"></span>
+        <span>Trợ lý AI đang xử lý nội dung &amp; nén ảnh WebP...</span>
+      </div>
+
+      <!-- Attachment Preview Bar -->
+      <div id="attachmentBar" style="display:none;padding:8px 14px;background:var(--primary-soft);border-top:1px solid var(--primary-border);font-size:12px;align-items:center;justify-content:space-between;">
+        <span id="attachmentLabel" style="font-weight:600;color:var(--primary);">📎 Đã chọn file</span>
+        <button class="btn btn-outline btn-sm" onclick="clearAttachments()" style="padding:2px 8px;font-size:11px;">✕ Bỏ chọn</button>
+      </div>
+
+      <div class="chat-composer">
+        <input type="file" id="docxFileInput" multiple accept=".docx,.jpg,.jpeg,.png,.webp" style="display:none;" onchange="handleFileSelect(event)" />
+        <div class="composer-inner">
+          <button class="attach-btn" onclick="document.getElementById('docxFileInput').click()" title="Đính kèm file Word (.docx) và hình ảnh từ máy tính">
+            📎
+          </button>
+          <textarea
+            id="chatInput"
+            rows="1"
+            placeholder="Nhập yêu cầu hoặc bấm 📎 gửi file .docx..."
+            oninput="this.style.height='32px';this.style.height=Math.min(this.scrollHeight,110)+'px';"
+            onkeydown="if(event.key==='Enter' && !event.shiftKey){event.preventDefault();sendChat();}"
+          ></textarea>
+          <button class="send-btn" onclick="sendChat()">
+            Gửi ↑
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- COLUMN 2: Interactive Preview, Friendly Editor & Actions -->
+    <section class="card-col">
+      <div class="col-header">
+        <div>
+          <div class="col-header-title">✨ Không Gian Xem Trước &amp; Chỉnh Sửa</div>
+          <div class="col-header-sub" id="activeSubtitle">Kiểm tra nội dung trước khi phê duyệt xuất bản</div>
+        </div>
+        <div class="center-mode-tabs">
+          <button class="mode-tab active" id="modeBtnPreview" onclick="switchStudioMode('preview')">👁️ Xem bản hiển thị</button>
+          <button class="mode-tab" id="modeBtnEdit" onclick="switchStudioMode('edit')">✏️ Chỉnh sửa &amp; SEO</button>
+        </div>
+      </div>
+
+      <!-- Empty State (Shown before any post is selected/created) -->
+      <div class="studio-body" id="emptyStudioState">
+        <div class="empty-studio">
+          <div class="empty-icon">✨</div>
+          <h3>Chưa có bài viết nào đang mở</h3>
+          <p>
+            Hãy bấm vào một gợi ý ở khung chat bên trái hoặc nhập yêu cầu của bạn để AI tự động soạn thảo bài viết chuẩn SEO trong vài giây.
+          </p>
+          <div style="display:flex;justify-content:center;gap:8px;flex-wrap:wrap;">
+            <button class="btn btn-primary" onclick="sendQuick('Viết bài về phim cách nhiệt văn phòng chống nắng cho website chính.')">
+              🚀 Tạo thử 1 bài Website ngay
+            </button>
+            <button class="btn btn-outline" onclick="sendQuick('Viết bài giới thiệu sản phẩm mới và đăng lên Facebook.')">
+              📱 Tạo thử 1 bài Facebook
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Active Content Workspace (Hidden when empty) -->
+      <div class="studio-body" id="activeStudioState" style="display:none;">
+
+        <!-- Top Status & Quick Regenerate Row -->
+        <div class="article-top-bar">
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+            <span id="statusBadge" class="status-pill status-pending_approval">⏳ Chờ bạn duyệt</span>
+            <span id="seoScoreBadge" class="score-ring" style="background:var(--success-soft);color:var(--success);">
+              ✓ Chuẩn kiểm định: 100/100
+            </span>
+          </div>
+          <div style="display:flex;gap:6px;">
+            <button class="btn btn-outline btn-sm" onclick="regenerateActive()" title="Yêu cầu AI viết lại với cách diễn đạt mới">
+              🔄 Viết lại giọng văn khác
+            </button>
+          </div>
+        </div>
+
+        <!-- Alert Banner for Published Link or Error Message -->
+        <div id="resultBanner" style="display:none;padding:12px 16px;border-radius:10px;font-size:13px;"></div>
+
+        <!-- Visual Platform Selector Cards -->
+        <div>
+          <div class="field-label" style="margin-bottom:6px;">
+            <span>1. Chọn Nền Tảng Đăng Bài</span>
+            <span style="font-size:11.5px;color:var(--text-muted);font-weight:400;" id="platHintText">Tự động tối ưu cấu trúc theo từng kênh</span>
+          </div>
+          <div class="platform-selector-cards">
+            <div class="plat-card selected" id="platCard_vtechfilm" onclick="selectPlatformCard('vtechfilm')">
+              <span class="plat-icon">🌐</span>
+              <div>
+                <div class="plat-name">Website Chính</div>
+                <div class="plat-domain">vtechfilm.com</div>
+              </div>
+            </div>
+            <div class="plat-card" id="platCard_onex" onclick="selectPlatformCard('onex')">
+              <span class="plat-icon">🛰️</span>
+              <div>
+                <div class="plat-name">Web Vệ Tinh</div>
+                <div class="plat-domain">phimcachnhietdankinh.vn</div>
+              </div>
+            </div>
+            <div class="plat-card" id="platCard_facebook" onclick="selectPlatformCard('facebook')">
+              <span class="plat-icon">📘</span>
+              <div>
+                <div class="plat-name">Facebook Page</div>
+                <div class="plat-domain">Fanpage VTECH FILM</div>
+              </div>
+            </div>
+          </div>
+          <input type="hidden" id="edPlatform" value="vtechfilm" />
+        </div>
+
+        <!-- MODE A: VISUAL LIVE PREVIEW (Default for non-technical users) -->
+        <div id="previewPane" style="display:flex;flex-direction:column;gap:16px;">
+
+          <!-- Google Search Snippet Mockup (Hidden for Facebook) -->
+          <div class="serp-card" id="googleSerpBox">
+            <div class="serp-label">
+              <span>🔍 Xem trước hiển thị trên Google Tìm Kiếm</span>
+              <span style="font-weight:500;text-transform:none;">Chuẩn Yoast SEO</span>
+            </div>
+            <div class="serp-url" id="serpUrl">https://vtechfilm.com/duong-dan-bai-viet/</div>
+            <div class="serp-title" id="serpTitle">Tiêu đề SEO hiển thị trên Google</div>
+            <div class="serp-desc" id="serpDesc">Mô tả ngắn hiển thị trên kết quả tìm kiếm Google giúp thu hút khách hàng bấm vào xem bài viết...</div>
+          </div>
+
+          <!-- Realistic Browser / Article Content Preview -->
+          <div class="live-preview-wrapper">
+            <div class="browser-chrome">
+              <div class="browser-dots"><span></span><span></span><span></span></div>
+              <div class="browser-url" id="browserUrlBar">https://vtechfilm.com/bai-viet-moi/</div>
+              <button class="btn btn-outline btn-sm" onclick="switchStudioMode('edit')" style="padding:3px 9px;font-size:11px;">
+                ✏️ Sửa nội dung
+              </button>
+            </div>
+            <div class="article-render">
+              <h1 class="preview-h1" id="previewH1">Tiêu đề bài viết</h1>
+              <div id="visualPreview"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- MODE B: EASY EDITOR & SEO TUNING -->
+        <div id="editPane" style="display:none;flex-direction:column;gap:14px;">
+          <div class="field-group">
+            <label class="field-label">
+              <span>Tiêu đề bài viết chính (H1)</span>
+            </label>
+            <input type="text" class="field-input" id="edTitle" oninput="syncLiveCounters()" placeholder="Nhập tiêu đề bài viết..." />
+          </div>
+
+          <div class="field-group">
+            <label class="field-label">
+              <span>Nội dung bài viết (Có thể sửa trực tiếp)</span>
+              <span class="char-counter">Hỗ trợ định dạng đoạn văn, tiêu đề H2, danh sách</span>
+            </label>
+            <textarea class="field-input" id="edBodyHtml" rows="9" oninput="syncLiveCounters()" style="line-height:1.6;font-family:inherit;"></textarea>
+          </div>
+
+          <div id="seoFieldsSection" style="background:var(--bg-subtle);padding:14px;border-radius:12px;border:1px solid var(--border);display:flex;flex-direction:column;gap:12px;">
+            <div style="font-size:13px;font-weight:700;color:var(--text-main);">🎯 Tối Ưu Hóa Tìm Kiếm Google (SEO)</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+              <div class="field-group">
+                <label class="field-label">
+                  <span>Từ khóa chính (Focus Keyphrase)</span>
+                </label>
+                <input type="text" class="field-input" id="edKeyphrase" placeholder="VD: phim cách nhiệt văn phòng" />
+              </div>
+              <div class="field-group">
+                <label class="field-label">
+                  <span>Đường dẫn tĩnh (Slug URL)</span>
+                </label>
+                <input type="text" class="field-input" id="edSlug" oninput="syncLiveCounters()" placeholder="phim-cach-nhiet-van-phong" />
+              </div>
+            </div>
+
+            <div class="field-group">
+              <label class="field-label">
+                <span>Tiêu đề Google (SEO Title)</span>
+                <span class="char-counter" id="seoTitleCounter">0 / 60 ký tự (Tốt nhất: 30-60)</span>
+              </label>
+              <input type="text" class="field-input" id="edSeoTitle" oninput="syncLiveCounters()" />
+            </div>
+
+            <div class="field-group">
+              <label class="field-label">
+                <span>Mô tả thu hút trên Google (Meta Description)</span>
+                <span class="char-counter" id="metaDescCounter">0 / 160 ký tự (Tốt nhất: 120-160)</span>
+              </label>
+              <textarea class="field-input" id="edMetaDesc" rows="2" oninput="syncLiveCounters()"></textarea>
+            </div>
+          </div>
+
+          <div style="display:flex;justify-content:flex-end;gap:8px;">
+            <button class="btn btn-outline" onclick="switchStudioMode('preview')">Quay lại Xem trước</button>
+            <button class="btn btn-primary" onclick="saveActiveEdits()">💾 Lưu thay đổi &amp; Kiểm tra lại</button>
+          </div>
+        </div>
+
+        <!-- Friendly Schedule Picker Box -->
+        <div class="schedule-box">
+          <div class="field-label">
+            <span>📅 2. Cài Đặt Thời Gian Hẹn Giờ Đăng (Tùy chọn)</span>
+            <span style="font-size:11.5px;color:var(--text-muted);font-weight:400;">Chọn nhanh hoặc tự chọn ngày giờ</span>
+          </div>
+          <div class="quick-time-row">
+            <button class="chip" onclick="setQuickSchedule(1, 9, 0, '')">🌅 9:00 Sáng mai</button>
+            <button class="chip" onclick="setQuickSchedule(1, 14, 0, '')">☀️ 14:00 Chiều mai</button>
+            <button class="chip" onclick="setQuickSchedule(0, 20, 0, '')">🌙 20:00 Tối nay</button>
+            <button class="chip" onclick="setQuickSchedule(1, 9, 0, 'DAILY_7')">🔁 Mỗi ngày 9h sáng (7 ngày tới)</button>
+          </div>
+          <div class="schedule-grid">
+            <div class="field-group">
+              <label class="field-label">Ngày &amp; Giờ đăng</label>
+              <input type="datetime-local" class="field-input" id="edScheduleAt" />
+            </div>
+            <div class="field-group">
+              <label class="field-label">Chế độ lặp lại tự động</label>
+              <select class="field-input" id="edRecurrence">
+                <option value="">Đăng 1 lần duy nhất</option>
+                <option value="DAILY">Lặp lại Hàng ngày (Daily)</option>
+                <option value="DAILY_7">Lặp lại 7 ngày liên tiếp (Tuần tới)</option>
+                <option value="WEEKLY">Lặp lại Hàng tuần (Weekly)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Preflight Checklist Details -->
+        <div class="checklist-card" id="validationBox"></div>
+      </div>
+
+      <!-- Sticky Bottom Action Bar -->
+      <div class="studio-footer" id="studioFooter" style="display:none;">
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+          <button class="btn btn-success" id="btnApprove" onclick="approveActive()">
+            ✅ Bước 1: Duyệt Bài Viết
+          </button>
+          <button class="btn btn-primary" id="btnPublishNow" onclick="publishNowActive()">
+            🚀 Đăng Ngay Lập Tức
+          </button>
+          <button class="btn btn-blue" id="btnSchedule" onclick="scheduleActive()">
+            📅 Hẹn Giờ Đăng
+          </button>
+        </div>
+        <button class="btn btn-danger-ghost btn-sm" onclick="deleteActiveContent()" title="Xóa bản nháp này">
+          🗑️ Xóa bài
+        </button>
+      </div>
+    </section>
+
+    <!-- COLUMN 3: Posts List, Scheduled Queue & Calendar -->
+    <section class="card-col">
+      <div class="col-header">
+        <div>
+          <div class="col-header-title">🗂️ Quản Lý Bài Viết &amp; Lịch Hẹn</div>
+          <div class="col-header-sub">Tự động lưu trữ an toàn khi tắt máy</div>
+        </div>
+      </div>
+
+      <div class="seg-tabs">
+        <button class="seg-btn active" id="tabBtnDrafts" onclick="switchRightTab('drafts')">
+          📄 Bài viết (<span id="countDrafts">0</span>)
+        </button>
+        <button class="seg-btn" id="tabBtnJobs" onclick="switchRightTab('jobs')">
+          ⏰ Lịch hẹn (<span id="countJobs">0</span>)
+        </button>
+        <button class="seg-btn" id="tabBtnCal" onclick="switchRightTab('calendar')">
+          🗓️ Theo ngày
+        </button>
+      </div>
+
+      <div class="queue-list" id="rightListContainer"></div>
+    </section>
+  </main>
+
+  <script>
+    let activeContentId = null;
+    let currentRightTab = 'drafts';
+    let cachedContents = [];
+    let cachedJobs = [];
+    let pendingModalAction = null;
+    let attachedDocx = null;
+    let attachedImages = [];
+
+    function fileToBase64(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => {
+          const res = String(reader.result || '');
+          resolve(res.split(',')[1] || '');
+        };
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    }
+
+    async function handleFileSelect(ev) {
+      const files = Array.from(ev.target.files || []);
+      if (!files.length) return;
+      attachedDocx = null;
+      attachedImages = [];
+      for (const f of files) {
+        const b64 = await fileToBase64(f);
+        if (f.name.toLowerCase().endsWith('.docx')) {
+          attachedDocx = { name: f.name, base64: b64 };
+        } else {
+          attachedImages.push({ name: f.name, base64: b64 });
+        }
+      }
+      if (!attachedDocx) {
+        showToast('Vui lòng chọn ít nhất 1 file Word (.docx)!', 'error');
+        return;
+      }
+      const bar = document.getElementById('attachmentBar');
+      const lbl = document.getElementById('attachmentLabel');
+      bar.style.display = 'flex';
+      lbl.textContent = `📎 ${attachedDocx.name}` + (attachedImages.length ? ` (+${attachedImages.length} ảnh đi kèm)` : '');
+      const inp = document.getElementById('chatInput');
+      if (!inp.value.trim()) {
+        inp.value = 'Đặt lịch 9 giờ sáng mai đăng lên web chính';
+      }
+      inp.focus();
+    }
+
+    function clearAttachments() {
+      attachedDocx = null;
+      attachedImages = [];
+      document.getElementById('docxFileInput').value = '';
+      document.getElementById('attachmentBar').style.display = 'none';
+    }
+
+    async function togglePublishMode() {
+      const val = document.getElementById('modeSelect').value;
+      const isLive = val === 'live';
+      try {
+        await apiFetch('/api/mode', {
+          method: 'POST',
+          body: JSON.stringify({ live_mode: isLive })
+        });
+        showToast(
+          isLive
+            ? '🌐 Đã bật Chế độ Đăng Thật! Khi bạn bấm Đăng/Lên lịch, bài sẽ được đẩy trực tiếp lên website.'
+            : '🧪 Đã chuyển về Chế độ Nháp an toàn (Sandbox).',
+          isLive ? 'success' : 'info'
+        );
+      } catch (err) {
+        showToast(err.message, 'error');
+      }
+    }
+
+    async function approveAndAutoRun() {
+      if (!activeContentId) return;
+      try {
+        const res = await apiFetch('/api/chat', {
+          method: 'POST',
+          body: JSON.stringify({
+            message: 'ok duyệt',
+            timezone: getTz(),
+            active_content_id: activeContentId
+          })
+        });
+        appendChatBubble('assistant', res.reply, false);
+        if (res.content) populateEditor(res.content);
+        await refreshLists();
+        showToast('Đã tự động duyệt & thực thi lịch đăng!', 'success');
+      } catch (err) {
+        showToast(err.message, 'error');
+      }
+    }
+
+    const STATUS_LABELS = {
+      draft: '📝 Bản nháp',
+      pending_approval: '⏳ Chờ bạn duyệt',
+      approved: '✅ Đã duyệt — Sẵn sàng đăng',
+      scheduled: '📅 Đang hẹn giờ đăng',
+      publishing: '🔄 Đang xuất bản...',
+      published: '🎉 Đã đăng thành công',
+      failed: '⚠️ Tạm dừng (Cần kiểm tra)',
+      cancelled: '🚫 Đã hủy lịch',
+      queued: '⏰ Đang chờ đến giờ',
+      running: '🔄 Đang xử lý',
+      succeeded: '🎉 Đã đăng xong'
+    };
+
+    const PLATFORM_NAMES = {
+      vtechfilm: '🌐 Website Chính (vtechfilm.com)',
+      onex: '🛰️ Web Vệ Tinh (phimcachnhietdankinh.vn)',
+      facebook: '📘 Facebook Fanpage'
+    };
+
+    function showToast(message, type = 'info') {
+      const box = document.getElementById('toastContainer');
+      const el = document.createElement('div');
+      el.className = 'toast ' + type;
+      const icon = type === 'success' ? '✅' : (type === 'error' ? '⚠️' : '💡');
+      el.innerHTML = `<span>${icon}</span><div>${message}</div>`;
+      box.appendChild(el);
+      setTimeout(() => {
+        el.style.opacity = '0';
+        el.style.transition = '0.25s';
+        setTimeout(() => el.remove(), 250);
+      }, 3600);
+    }
+
+    function openConfirmModal(title, message, confirmLabel, onConfirm) {
+      document.getElementById('modalTitle').textContent = title;
+      document.getElementById('modalMessage').textContent = message;
+      const btn = document.getElementById('modalConfirmBtn');
+      btn.textContent = confirmLabel || 'Xác nhận';
+      pendingModalAction = onConfirm;
+      btn.onclick = () => {
+        const fn = pendingModalAction;
+        closeModal();
+        if (fn) fn();
+      };
+      document.getElementById('confirmModal').style.display = 'flex';
+    }
+
+    function closeModal() {
+      document.getElementById('confirmModal').style.display = 'none';
+      pendingModalAction = null;
+    }
+
+    function toggleTheme() {
+      const html = document.documentElement;
+      const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', next);
+      document.getElementById('themeBtn').textContent = next === 'dark' ? '☀️' : '🌙';
+    }
+
+    function getToken() {
+      return document.getElementById('wsSelect').value;
+    }
+
+    function getTz() {
+      return document.getElementById('tzSelect').value;
+    }
+
+    async function apiFetch(path, options = {}) {
+      const headers = Object.assign({
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + getToken()
+      }, options.headers || {});
+      const resp = await fetch(path, Object.assign({}, options, { headers }));
+      const data = await resp.json();
+      if (!resp.ok) {
+        throw new Error(data.message || data.error || 'Có lỗi xảy ra, vui lòng thử lại.');
+      }
+      return data;
+    }
+
+    function formatBubbleHtml(text) {
+      let safe = text
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+      safe = safe.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+      safe = safe.replace(/`([^`]+)`/g, '<code style="background:rgba(0,0,0,0.06);padding:2px 5px;border-radius:4px;font-size:12px;">$1</code>');
+      safe = safe.replace(/\n/g, '<br>');
+      return safe;
+    }
+
+    function appendChatBubble(sender, text, showQuickActions = false) {
+      const box = document.getElementById('chatMessages');
+      const row = document.createElement('div');
+      row.className = 'chat-row ' + sender;
+
+      const avatar = document.createElement('div');
+      avatar.className = 'avatar ' + (sender === 'user' ? 'user' : 'ai');
+      avatar.textContent = sender === 'user' ? 'Bạn' : 'AI';
+
+      const bubble = document.createElement('div');
+      bubble.className = 'bubble';
+      bubble.innerHTML = formatBubbleHtml(text);
+
+      if (showQuickActions && activeContentId) {
+        const actBar = document.createElement('div');
+        actBar.className = 'bubble-actions';
+        actBar.innerHTML = `
+          <button class="chip" style="border-color:var(--success);color:var(--success);font-weight:700;" onclick="approveAndAutoRun()">✅ Duyệt &amp; Tự động Lên lịch / Đăng</button>
+          <button class="chip" onclick="switchStudioMode('edit')">✏️ Tự chỉnh sửa</button>
+          <button class="chip" onclick="sendQuick('Đăng bài này lên website vào 9 giờ sáng mai.')">📅 Hẹn 9h sáng mai</button>
+        `;
+        bubble.appendChild(actBar);
+      }
+
+      row.appendChild(avatar);
+      row.appendChild(bubble);
+      box.appendChild(row);
+      box.scrollTop = box.scrollHeight;
+    }
+
+    function sendQuick(text) {
+      document.getElementById('chatInput').value = text;
+      sendChat();
+    }
+
+    async function sendChat() {
+      const input = document.getElementById('chatInput');
+      const msg = input.value.trim();
+      if (!msg && !attachedDocx) return;
+      input.value = '';
+      input.style.height = '32px';
+
+      const typing = document.getElementById('typingIndicator');
+      typing.style.display = 'flex';
+
+      try {
+        let res;
+        if (attachedDocx) {
+          const payload = {
+            docx_name: attachedDocx.name,
+            docx_base64: attachedDocx.base64,
+            images: attachedImages,
+            message: msg || `Tải lên file ${attachedDocx.name} lên web chính`,
+            timezone: getTz()
+          };
+          appendChatBubble('user', `📎 [${attachedDocx.name}${attachedImages.length ? ' +' + attachedImages.length + ' ảnh' : ''}] ${payload.message}`);
+          clearAttachments();
+          res = await apiFetch('/api/upload-docx', {
+            method: 'POST',
+            body: JSON.stringify(payload)
+          });
+        } else {
+          appendChatBubble('user', msg);
+          res = await apiFetch('/api/chat', {
+            method: 'POST',
+            body: JSON.stringify({
+              message: msg,
+              timezone: getTz(),
+              active_content_id: activeContentId
+            })
+          });
+        }
+        typing.style.display = 'none';
+        if (res.content) {
+          populateEditor(res.content);
+          appendChatBubble('assistant', res.reply, !res.content.reviewed);
+        } else {
+          appendChatBubble('assistant', res.reply, false);
+        }
+        await refreshLists();
+      } catch (err) {
+        typing.style.display = 'none';
+        appendChatBubble('assistant', '⚠️ ' + err.message, false);
+        showToast(err.message, 'error');
+      }
+    }
+
+    function updateStepper(item) {
+      const s1 = document.getElementById('step1');
+      const s2 = document.getElementById('step2');
+      const s3 = document.getElementById('step3');
+      const s4 = document.getElementById('step4');
+      [s1, s2, s3, s4].forEach(el => el.className = 'step-item');
+
+      if (!item) {
+        s1.classList.add('active');
+        return;
+      }
+      s1.classList.add('done');
+      if (item.status === 'published' || item.status === 'scheduled') {
+        s2.classList.add('done');
+        s3.classList.add('done');
+        s4.classList.add('done');
+      } else if (item.reviewed) {
+        s2.classList.add('done');
+        s3.classList.add('done');
+        s4.classList.add('active');
+      } else {
+        s2.classList.add('active');
+      }
+    }
+
+    function switchStudioMode(mode) {
+      const isEdit = mode === 'edit';
+      document.getElementById('modeBtnPreview').classList.toggle('active', !isEdit);
+      document.getElementById('modeBtnEdit').classList.toggle('active', isEdit);
+      document.getElementById('previewPane').style.display = isEdit ? 'none' : 'flex';
+      document.getElementById('editPane').style.display = isEdit ? 'flex' : 'none';
+      if (!isEdit) {
+        syncLiveCounters();
+      }
+    }
+
+    function selectPlatformCard(plat) {
+      document.getElementById('edPlatform').value = plat;
+      ['vtechfilm', 'onex', 'facebook'].forEach(k => {
+        document.getElementById('platCard_' + k).classList.toggle('selected', k === plat);
+      });
+      const isFb = plat === 'facebook';
+      document.getElementById('googleSerpBox').style.display = isFb ? 'none' : 'block';
+      document.getElementById('seoFieldsSection').style.display = isFb ? 'none' : 'flex';
+      syncLiveCounters();
+    }
+
+    function syncLiveCounters() {
+      const title = document.getElementById('edTitle').value;
+      const slug = document.getElementById('edSlug').value || 'bai-viet-moi';
+      const seoTitle = document.getElementById('edSeoTitle').value || title;
+      const metaDesc = document.getElementById('edMetaDesc').value;
+      const bodyHtml = document.getElementById('edBodyHtml').value;
+      const plat = document.getElementById('edPlatform').value;
+
+      const host = plat === 'onex' ? 'phimcachnhietdankinh.vn' : (plat === 'facebook' ? 'facebook.com/vtechfilm' : 'vtechfilm.com');
+      const fullUrl = `https://${host}/${slug}/`;
+
+      document.getElementById('previewH1').textContent = title || '(Chưa có tiêu đề)';
+      document.getElementById('visualPreview').innerHTML = bodyHtml || '<p>Chưa có nội dung.</p>';
+      document.getElementById('browserUrlBar').textContent = fullUrl;
+      document.getElementById('serpUrl').textContent = fullUrl;
+      document.getElementById('serpTitle').textContent = seoTitle || title;
+      document.getElementById('serpDesc').textContent = metaDesc || 'Chưa có mô tả Meta Description.';
+
+      const nSeo = seoTitle.length;
+      const seoEl = document.getElementById('seoTitleCounter');
+      seoEl.textContent = `${nSeo} / 60 ký tự (Chuẩn: 30-60)`;
+      seoEl.className = 'char-counter ' + (nSeo >= 30 && nSeo <= 60 ? 'good' : 'warn');
+
+      const nMeta = metaDesc.length;
+      const metaEl = document.getElementById('metaDescCounter');
+      metaEl.textContent = `${nMeta} / 160 ký tự (Chuẩn: 120-160)`;
+      metaEl.className = 'char-counter ' + (nMeta >= 120 && nMeta <= 160 ? 'good' : 'warn');
+    }
+
+    function setQuickSchedule(daysToAdd, hour, minute, recurrence) {
+      const d = new Date();
+      d.setDate(d.getDate() + daysToAdd);
+      d.setHours(hour, minute, 0, 0);
+      const pad = n => String(n).padStart(2, '0');
+      const localIso = `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+      document.getElementById('edScheduleAt').value = localIso;
+      document.getElementById('edRecurrence').value = recurrence || '';
+      showToast(`Đã chọn lịch hẹn: ${pad(d.getDate())}/${pad(d.getMonth() + 1)} lúc ${pad(hour)}:${pad(minute)}`, 'info');
+    }
+
+    function populateEditor(item) {
+      activeContentId = item.id;
+      document.getElementById('emptyStudioState').style.display = 'none';
+      document.getElementById('activeStudioState').style.display = 'flex';
+      document.getElementById('studioFooter').style.display = 'flex';
+
+      updateStepper(item);
+
+      const badge = document.getElementById('statusBadge');
+      badge.textContent = STATUS_LABELS[item.status] || item.status;
+      badge.className = 'status-pill status-' + item.status;
+
+      const resBanner = document.getElementById('resultBanner');
+      if (item.external_url) {
+        resBanner.style.display = 'block';
+        resBanner.style.background = 'var(--success-soft)';
+        resBanner.style.border = '1px solid rgba(16, 185, 129, 0.35)';
+        resBanner.innerHTML = `🎉 <strong>Bài viết đã được xuất bản thành công!</strong> Xem tại: <a href="${item.external_url}" target="_blank" style="color:var(--success);font-weight:700;">${item.external_url} ↗</a>`;
+      } else if (item.error_message) {
+        resBanner.style.display = 'block';
+        resBanner.style.background = 'var(--danger-soft)';
+        resBanner.style.border = '1px solid rgba(239, 68, 68, 0.35)';
+        resBanner.innerHTML = `⚠️ <strong>Thông báo cần lưu ý:</strong> ${item.error_message}`;
+      } else {
+        resBanner.style.display = 'none';
+      }
+
+      document.getElementById('edTitle').value = item.title || '';
+      document.getElementById('edSlug').value = item.slug || '';
+      document.getElementById('edKeyphrase').value = item.focus_keyphrase || '';
+      document.getElementById('edSeoTitle').value = item.seo_title || '';
+      document.getElementById('edMetaDesc').value = item.meta_description || '';
+      document.getElementById('edBodyHtml').value = item.body_html || '';
+      document.getElementById('edRecurrence').value = item.recurrence_rule || '';
+
+      if (item.scheduled_at) {
+        document.getElementById('edScheduleAt').value = item.scheduled_at.slice(0, 16);
+      } else {
+        document.getElementById('edScheduleAt').value = '';
+      }
+
+      selectPlatformCard(item.platform || 'vtechfilm');
+      syncLiveCounters();
+
+      const v = item.validation || {};
+      const score = v.score ?? 100;
+      const scoreBadge = document.getElementById('seoScoreBadge');
+      scoreBadge.textContent = `${v.passed ? '✓ Đạt chuẩn' : '⚠ Cần chỉnh sửa'}: ${score}/100 điểm`;
+      scoreBadge.style.background = v.passed ? 'var(--success-soft)' : 'var(--warning-soft)';
+      scoreBadge.style.color = v.passed ? 'var(--success)' : '#b45309';
+
+      const fails = (v.fails || []).map(f => `<div style="color:var(--danger);margin-top:4px;">❌ ${f}</div>`).join('');
+      const warns = (v.warns || []).map(w => `<div style="color:#d97706;margin-top:4px;">💡 Gợi ý tối ưu: ${w}</div>`).join('');
+      document.getElementById('validationBox').innerHTML = `
+        <div style="font-size:13px;font-weight:700;margin-bottom:4px;">
+          🛡️ Kiểm tra Chất lượng &amp; SEO tự động: ${v.passed ? '<span style="color:var(--success);">Tất cả tiêu chí hợp lệ!</span>' : '<span style="color:var(--danger);">Vui lòng kiểm tra các mục bên dưới</span>'}
+        </div>
+        ${fails || '<div style="font-size:12.5px;color:var(--text-muted);">✓ Đúng hotline chuẩn VTECH (0967 725 714 / 0522 187 187) • ✓ Đầy đủ thẻ mô tả ảnh • ✓ Không trùng lặp SEO</div>'}
+        ${warns}
+      `;
+
+      // Highlight buttons based on approval state
+      const btnApprove = document.getElementById('btnApprove');
+      if (item.reviewed) {
+        btnApprove.textContent = '✓ Đã Duyệt Bài';
+        btnApprove.disabled = true;
+      } else {
+        btnApprove.textContent = '✅ Bước 1: Duyệt Bài Viết';
+        btnApprove.disabled = false;
+      }
+    }
+
+    async function saveActiveEdits() {
+      if (!activeContentId) return;
+      try {
+        const res = await apiFetch(`/api/content/${activeContentId}`, {
+          method: 'PUT',
+          body: JSON.stringify({
+            title: document.getElementById('edTitle').value,
+            platform: document.getElementById('edPlatform').value,
+            slug: document.getElementById('edSlug').value,
+            focus_keyphrase: document.getElementById('edKeyphrase').value,
+            seo_title: document.getElementById('edSeoTitle').value,
+            meta_description: document.getElementById('edMetaDesc').value,
+            body_html: document.getElementById('edBodyHtml').value,
+            scheduled_at: document.getElementById('edScheduleAt').value || null,
+            recurrence_rule: document.getElementById('edRecurrence').value || null
+          })
+        });
+        populateEditor(res.item);
+        switchStudioMode('preview');
+        await refreshLists();
+        showToast('Đã lưu chỉnh sửa! Hãy bấm "Duyệt Bài Viết" để xác nhận.', 'success');
+      } catch (err) {
+        showToast(err.message, 'error');
+      }
+    }
+
+    async function regenerateActive() {
+      if (!activeContentId) return;
+      showToast('Đang yêu cầu AI viết lại nội dung mới...', 'info');
+      try {
+        const res = await apiFetch(`/api/content/${activeContentId}/regenerate`, {
+          method: 'POST',
+          body: JSON.stringify({ tone: 'thuyết phục, thu hút khách hàng' })
+        });
+        populateEditor(res.item);
+        await refreshLists();
+        showToast('Đã làm mới nội dung bài viết!', 'success');
+      } catch (err) {
+        showToast(err.message, 'error');
+      }
+    }
+
+    async function approveActive() {
+      if (!activeContentId) return;
+      try {
+        const res = await apiFetch(`/api/content/${activeContentId}/approve`, { method: 'POST' });
+        populateEditor(res.item);
+        await refreshLists();
+        showToast('Đã duyệt bài viết! Bạn có thể bấm Đăng Ngay hoặc Hẹn Giờ.', 'success');
+      } catch (err) {
+        showToast(err.message, 'error');
+      }
+    }
+
+    async function publishNowActive() {
+      if (!activeContentId) return;
+      const current = cachedContents.find(x => x.id === activeContentId);
+      if (current && !current.reviewed) {
+        showToast('Vui lòng bấm "✅ Bước 1: Duyệt Bài Viết" trước khi đăng nhé!', 'error');
+        return;
+      }
+      openConfirmModal(
+        '🚀 Xác nhận Đăng bài ngay',
+        'Bài viết đã được duyệt. Bạn có muốn xuất bản ngay lên nền tảng đích không?',
+        'Đăng ngay bây giờ',
+        async () => {
+          try {
+            const res = await apiFetch(`/api/content/${activeContentId}/publish`, { method: 'POST' });
+            populateEditor(res.content);
+            await refreshLists();
+            showToast('Xuất bản bài viết thành công!', 'success');
+            appendChatBubble('assistant', `🎉 Bài viết **${res.content.title}** đã được xuất bản thành công!\n🔗 Link: ${res.content.external_url}`);
+          } catch (err) {
+            showToast(err.message, 'error');
+            await refreshLists();
+          }
+        }
+      );
+    }
+
+    async function scheduleActive() {
+      if (!activeContentId) return;
+      const current = cachedContents.find(x => x.id === activeContentId);
+      if (current && !current.reviewed) {
+        showToast('Hãy bấm "✅ Bước 1: Duyệt Bài Viết" trước khi hẹn giờ đăng nhé!', 'error');
+        return;
+      }
+      const dt = document.getElementById('edScheduleAt').value;
+      if (!dt) {
+        showToast('Vui lòng chọn Ngày & Giờ đăng ở mục số 2 (hoặc bấm nút chọn nhanh 9:00 Sáng mai).', 'error');
+        return;
+      }
+      try {
+        const res = await apiFetch(`/api/content/${activeContentId}/schedule`, {
+          method: 'POST',
+          body: JSON.stringify({
+            scheduled_at: dt,
+            timezone: getTz(),
+            recurrence_rule: document.getElementById('edRecurrence').value || null
+          })
+        });
+        populateEditor(res.item);
+        await refreshLists();
+        switchRightTab('jobs');
+        showToast('Đã lên lịch hẹn giờ đăng thành công!', 'success');
+      } catch (err) {
+        showToast(err.message, 'error');
+      }
+    }
+
+    function deleteActiveContent() {
+      if (!activeContentId) return;
+      openConfirmModal(
+        '🗑️ Xóa bài viết này?',
+        'Bài viết và các lịch hẹn liên quan sẽ bị xóa khỏi danh sách. Bạn có chắc chắn muốn xóa không?',
+        'Xóa vĩnh viễn',
+        async () => {
+          try {
+            await apiFetch(`/api/content/${activeContentId}?confirmed=true`, { method: 'DELETE' });
+            activeContentId = null;
+            document.getElementById('emptyStudioState').style.display = 'flex';
+            document.getElementById('activeStudioState').style.display = 'none';
+            document.getElementById('studioFooter').style.display = 'none';
+            updateStepper(null);
+            await refreshLists();
+            showToast('Đã xóa bài viết.', 'info');
+          } catch (err) {
+            showToast(err.message, 'error');
+          }
+        }
+      );
+    }
+
+    function cancelJob(jobId, ev) {
+      ev.stopPropagation();
+      openConfirmModal(
+        '🚫 Hủy lịch hẹn giờ?',
+        'Bài viết sẽ không tự động đăng vào giờ đã hẹn nữa (nhưng bản nháp vẫn được giữ lại).',
+        'Đồng ý hủy lịch',
+        async () => {
+          try {
+            await apiFetch(`/api/jobs/${jobId}/cancel`, {
+              method: 'POST',
+              body: JSON.stringify({ confirmed: true })
+            });
+            await refreshLists();
+            showToast('Đã hủy lịch hẹn giờ đăng.', 'info');
+          } catch (err) {
+            showToast(err.message, 'error');
+          }
+        }
+      );
+    }
+
+    async function retryJob(jobId, ev) {
+      ev.stopPropagation();
+      try {
+        await apiFetch(`/api/jobs/${jobId}/retry`, { method: 'POST' });
+        await refreshLists();
+        showToast('Đã thực hiện chạy lại lịch đăng thành công!', 'success');
+      } catch (err) {
+        showToast(err.message, 'error');
+      }
+    }
+
+    function switchRightTab(tab) {
+      currentRightTab = tab;
+      document.getElementById('tabBtnDrafts').classList.toggle('active', tab === 'drafts');
+      document.getElementById('tabBtnJobs').classList.toggle('active', tab === 'jobs');
+      document.getElementById('tabBtnCal').classList.toggle('active', tab === 'calendar');
+      renderRightColumn();
+    }
+
+    async function refreshLists() {
+      const [cData, jData] = await Promise.all([
+        apiFetch('/api/content'),
+        apiFetch('/api/jobs')
+      ]);
+      cachedContents = cData.items || [];
+      cachedJobs = jData.jobs || [];
+      document.getElementById('countDrafts').textContent = cachedContents.length;
+      document.getElementById('countJobs').textContent = cachedJobs.filter(j => j.status === 'queued' || j.status === 'failed').length;
+      renderRightColumn();
+    }
+
+    function renderRightColumn() {
+      const box = document.getElementById('rightListContainer');
+      if (currentRightTab === 'drafts') {
+        if (!cachedContents.length) {
+          box.innerHTML = `
+            <div style="text-align:center;padding:32px 16px;color:var(--text-muted);font-size:13px;">
+              📭 Chưa có bài viết nào.<br>Hãy nhắn yêu cầu vào khung Chat bên trái để bắt đầu!
+            </div>`;
+          return;
+        }
+        box.innerHTML = cachedContents.map(c => `
+          <div class="post-card ${c.id === activeContentId ? 'active' : ''}" onclick='selectContentById("${c.id}")'>
+            <div class="post-card-title">${c.title || '(Chưa có tiêu đề)'}</div>
+            <div class="post-card-meta">
+              <span class="status-pill status-${c.status}" style="font-size:11px;padding:3px 9px;">
+                ${STATUS_LABELS[c.status] || c.status}
+              </span>
+              <span>${PLATFORM_NAMES[c.platform] || c.platform}</span>
+            </div>
+            ${c.scheduled_at ? `<div style="margin-top:6px;font-size:11.5px;color:#7e22ce;font-weight:600;">⏰ Hẹn đăng: ${c.scheduled_at.slice(0, 16).replace('T', ' ')}</div>` : ''}
+            ${c.external_url ? `<div style="margin-top:6px;font-size:11.5px;color:var(--success);font-weight:600;">🔗 Đã đăng: ${c.external_url}</div>` : ''}
+            ${c.error_message ? `<div style="margin-top:6px;font-size:11.5px;color:var(--danger);">⚠️ ${c.error_message}</div>` : ''}
+          </div>
+        `).join('');
+      } else if (currentRightTab === 'jobs') {
+        if (!cachedJobs.length) {
+          box.innerHTML = `
+            <div style="text-align:center;padding:32px 16px;color:var(--text-muted);font-size:13px;">
+              ⏰ Chưa có lịch hẹn giờ nào.
+            </div>`;
+          return;
+        }
+        box.innerHTML = cachedJobs.map(j => `
+          <div class="post-card" onclick='selectContentById("${j.content_id}")'>
+            <div class="post-card-title">${j.content_title || j.content_id}</div>
+            <div class="post-card-meta">
+              <span class="status-pill status-${j.status}" style="font-size:11px;padding:3px 9px;">
+                ${STATUS_LABELS[j.status] || j.status}
+              </span>
+              <span>🕒 ${j.scheduled_at_local.slice(0, 16).replace('T', ' ')}</span>
+            </div>
+            <div style="margin-top:6px;font-size:11.5px;color:var(--text-muted);">
+              ${PLATFORM_NAMES[j.platform] || j.platform}
+              ${j.recurrence_rule ? ` • 🔁 Lặp lại: <strong>${j.recurrence_rule}</strong>` : ''}
+            </div>
+            ${j.last_error_message ? `<div style="margin-top:6px;font-size:11.5px;color:var(--danger);">⚠️ ${j.last_error_message}</div>` : ''}
+            <div style="margin-top:10px;display:flex;gap:6px;">
+              ${j.status === 'queued' ? `<button class="btn btn-danger-ghost btn-sm" onclick="cancelJob('${j.id}', event)">🚫 Hủy lịch hẹn</button>` : ''}
+              ${j.status === 'failed' ? `<button class="btn btn-primary btn-sm" onclick="retryJob('${j.id}', event)">🔄 Chạy thử lại</button>` : ''}
+            </div>
+          </div>
+        `).join('');
+      } else {
+        const groups = {};
+        cachedJobs.forEach(j => {
+          const day = (j.scheduled_at_local || '').slice(0, 10) || 'Chưa rõ ngày';
+          if (!groups[day]) groups[day] = [];
+          groups[day].push(j);
+        });
+        const days = Object.keys(groups).sort();
+        if (!days.length) {
+          box.innerHTML = `<div style="text-align:center;padding:32px 16px;color:var(--text-muted);font-size:13px;">🗓️ Chưa có bài viết nào trên lịch tháng.</div>`;
+          return;
+        }
+        box.innerHTML = days.map(day => `
+          <div class="post-card" style="cursor:default;">
+            <div style="font-size:13px;font-weight:700;color:var(--primary);margin-bottom:8px;border-bottom:1px solid var(--border);padding-bottom:6px;">
+              📅 Ngày ${day.split('-').reverse().join('/')} (${groups[day].length} bài)
+            </div>
+            ${groups[day].map(j => `
+              <div style="padding:7px 0;border-bottom:1px dashed var(--border);font-size:12.5px;cursor:pointer;" onclick='selectContentById("${j.content_id}")'>
+                <div style="display:flex;justify-content:space-between;align-items:center;">
+                  <strong>🕒 ${j.scheduled_at_local.slice(11, 16)}</strong>
+                  <span class="status-pill status-${j.status}" style="font-size:10.5px;padding:2px 7px;">${STATUS_LABELS[j.status] || j.status}</span>
+                </div>
+                <div style="margin-top:3px;color:var(--text-secondary);">${j.content_title || j.content_id}</div>
+              </div>
+            `).join('')}
+          </div>
+        `).join('');
+      }
+    }
+
+    function selectContentById(cid) {
+      const found = cachedContents.find(x => x.id === cid);
+      if (found) populateEditor(found);
+    }
+
+    async function switchWorkspace() {
+      activeContentId = null;
+      document.getElementById('emptyStudioState').style.display = 'flex';
+      document.getElementById('activeStudioState').style.display = 'none';
+      document.getElementById('studioFooter').style.display = 'none';
+      updateStepper(null);
+      await refreshLists();
+      showToast('Đã chuyển đổi không gian làm việc (Workspace).', 'info');
+    }
+
+    window.addEventListener('DOMContentLoaded', async () => {
+      await refreshLists();
+      if (cachedContents.length > 0) {
+        populateEditor(cachedContents[0]);
+      }
+    });
+  </script>
+</body>
+</html>

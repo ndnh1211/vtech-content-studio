@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+.git/
+tests/
+content/
+publishing_app/data/*.db
+publishing_app/data/*.db-wal
+publishing_app/data/*.db-shm

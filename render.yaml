@@ -1,0 +1,18 @@
+services:
+  - type: web
+    name: vtech-ai-content-studio
+    runtime: python
+    plan: starter
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn publishing_app.server:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.3
+      - key: VTECH_DB_PATH
+        value: /var/data/publishing.db
+      - key: VTECH_LIVE_MODE
+        value: "false"
+    disk:
+      name: vtech-studio-data
+      mountPath: /var/data
+      sizeGB: 1

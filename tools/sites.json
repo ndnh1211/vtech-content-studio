@@ -1,0 +1,4 @@
+{
+  "vtechfilm": {"hostname": "vtechfilm.com", "platform": "wordpress", "session_file_env": "WP_AUTH_STATE", "hotlines": ["0967 725 714", "0967 707 383", "0522 187 187"]},
+  "onex": {"hostname": "phimcachnhietdankinh.vn", "admin_hostname": "app.onexbots.com", "platform": "onexeos", "session_file_env": "ONEX_AUTH_STATE", "hotlines": ["0967 725 714", "0967 707 383", "0522 187 187"]}
+}

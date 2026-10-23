@@ -1,0 +1,10 @@
+__pycache__/
+*.py[cod]
+*$py.class
+.env
+*auth_state*.json
+publishing_app/data/*.db
+publishing_app/data/*.db-wal
+publishing_app/data/*.db-shm
+publishing_app/data/media/
+content/
