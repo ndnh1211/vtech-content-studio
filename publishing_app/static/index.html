@@ -3,62 +3,90 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>VTECH Content Studio — Trợ Lý AI Viết Bài &amp; Lên Lịch Tự Động</title>
+  <title>VTECH Content Studio — AI Publishing &amp; Scheduling</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+  <!-- Flatpickr Modern Date/Time Picker -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/vn.js"></script>
+  <!-- Lucide Vector Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
   <style>
     :root {
-      --bg-app: #f4f6fb;
+      --bg-app: #f8fafc;
       --bg-surface: #ffffff;
-      --bg-subtle: #f8fafc;
+      --bg-subtle: #f1f5f9;
+      --bg-muted: #f8fafc;
       --bg-hover: #f1f5f9;
       --border: #e2e8f0;
       --border-strong: #cbd5e1;
-      --text-main: #0f172a;
-      --text-secondary: #475569;
+      --text-main: #09090b;
+      --text-secondary: #334155;
       --text-muted: #64748b;
-      --primary: #f97316;
-      --primary-hover: #ea580c;
-      --primary-soft: #fff7ed;
-      --primary-border: #fed7aa;
-      --accent-blue: #2563eb;
-      --accent-blue-soft: #eff6ff;
-      --success: #10b981;
+      --brand: #ea580c;
+      --brand-hover: #c2410c;
+      --brand-soft: #fff7ed;
+      --brand-border: #fed7aa;
+      --dark-btn: #0f172a;
+      --dark-btn-hover: #1e293b;
+      --success: #059669;
       --success-soft: #ecfdf5;
-      --warning: #f59e0b;
+      --success-border: #a7f3d0;
+      --warning: #d97706;
       --warning-soft: #fffbeb;
-      --danger: #ef4444;
-      --danger-soft: #fef2f2;
-      --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.05);
-      --shadow-md: 0 4px 14px rgba(15, 23, 42, 0.07);
-      --shadow-lg: 0 12px 32px rgba(15, 23, 42, 0.12);
+      --danger: #e11d48;
+      --danger-soft: #fff1f2;
+      --radius-xs: 6px;
       --radius-sm: 8px;
-      --radius-md: 12px;
-      --radius-lg: 16px;
+      --radius-md: 10px;
+      --radius-lg: 14px;
+      --shadow-xs: 0 1px 2px rgba(15, 23, 42, 0.04);
+      --shadow-sm: 0 2px 8px -2px rgba(15, 23, 42, 0.06), 0 1px 3px -1px rgba(15, 23, 42, 0.04);
+      --shadow-md: 0 8px 24px -4px rgba(15, 23, 42, 0.08), 0 2px 6px -1px rgba(15, 23, 42, 0.04);
+      --shadow-lg: 0 20px 40px -8px rgba(15, 23, 42, 0.14);
     }
 
     [data-theme="dark"] {
-      --bg-app: #0b1120;
-      --bg-surface: #151f32;
-      --bg-subtle: #1e293b;
-      --bg-hover: #263449;
-      --border: #2e3d52;
-      --border-strong: #3e506b;
-      --text-main: #f8fafc;
-      --text-secondary: #cbd5e1;
-      --text-muted: #94a3b8;
-      --primary-soft: rgba(249, 115, 22, 0.14);
-      --primary-border: rgba(249, 115, 22, 0.35);
-      --accent-blue-soft: rgba(37, 99, 235, 0.15);
-      --success-soft: rgba(16, 185, 129, 0.14);
-      --warning-soft: rgba(245, 158, 11, 0.14);
-      --danger-soft: rgba(239, 68, 68, 0.14);
+      --bg-app: #09090b;
+      --bg-surface: #121215;
+      --bg-subtle: #18181b;
+      --bg-muted: #18181b;
+      --bg-hover: #27272a;
+      --border: #27272a;
+      --border-strong: #3f3f46;
+      --text-main: #fafafa;
+      --text-secondary: #d4d4d8;
+      --text-muted: #71717a;
+      --brand: #f97316;
+      --brand-hover: #ea580c;
+      --brand-soft: rgba(249, 115, 22, 0.12);
+      --brand-border: rgba(249, 115, 22, 0.3);
+      --dark-btn: #fafafa;
+      --dark-btn-hover: #e4e4e7;
+      --success-soft: rgba(16, 185, 129, 0.12);
+      --success-border: rgba(16, 185, 129, 0.3);
+      --warning-soft: rgba(245, 158, 11, 0.12);
+      --danger-soft: rgba(225, 29, 72, 0.12);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* Sleek Custom Scrollbars */
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(148, 163, 184, 0.35);
+      border-radius: 999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(100, 116, 139, 0.6);
+    }
+
     body {
-      font-family: 'Be Vietnam Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       background: var(--bg-app);
       color: var(--text-main);
       height: 100vh;
@@ -66,21 +94,111 @@
       flex-direction: column;
       overflow: hidden;
       -webkit-font-smoothing: antialiased;
+      font-size: 13.5px;
     }
 
-    /* ── Top Navigation Bar ── */
+    svg.lucide {
+      width: 15px;
+      height: 15px;
+      stroke-width: 1.85;
+      flex-shrink: 0;
+    }
+
+    /* ── Flatpickr Custom Shadcn/Linear Theme Override ── */
+    .flatpickr-calendar {
+      background: var(--bg-surface) !important;
+      border: 1px solid var(--border) !important;
+      box-shadow: var(--shadow-lg) !important;
+      border-radius: 12px !important;
+      font-family: 'Inter', sans-serif !important;
+      padding: 8px !important;
+      width: 318px !important;
+    }
+    .flatpickr-months {
+      padding: 4px 0 8px !important;
+      align-items: center !important;
+    }
+    .flatpickr-months .flatpickr-month {
+      color: var(--text-main) !important;
+      fill: var(--text-main) !important;
+      height: 32px !important;
+    }
+    .flatpickr-current-month {
+      font-size: 13.5px !important;
+      font-weight: 600 !important;
+      padding-top: 4px !important;
+    }
+    .flatpickr-current-month .flatpickr-monthDropdown-months {
+      font-weight: 600 !important;
+      background: transparent !important;
+    }
+    .flatpickr-months .flatpickr-prev-month,
+    .flatpickr-months .flatpickr-next-month {
+      padding: 6px !important;
+      border-radius: 6px !important;
+      top: 6px !important;
+      fill: var(--text-secondary) !important;
+    }
+    .flatpickr-months .flatpickr-prev-month:hover,
+    .flatpickr-months .flatpickr-next-month:hover {
+      background: var(--bg-hover) !important;
+    }
+    span.flatpickr-weekday {
+      color: var(--text-muted) !important;
+      font-weight: 600 !important;
+      font-size: 11.5px !important;
+    }
+    .flatpickr-day {
+      color: var(--text-main) !important;
+      border-radius: 8px !important;
+      font-weight: 500 !important;
+      font-size: 12.5px !important;
+      height: 35px !important;
+      line-height: 35px !important;
+      margin-top: 2px !important;
+    }
+    .flatpickr-day:hover {
+      background: var(--bg-hover) !important;
+      border-color: transparent !important;
+    }
+    .flatpickr-day.today {
+      border-color: var(--border-strong) !important;
+      font-weight: 700 !important;
+    }
+    .flatpickr-day.selected,
+    .flatpickr-day.selected:hover {
+      background: var(--brand) !important;
+      border-color: var(--brand) !important;
+      color: #fff !important;
+      font-weight: 600 !important;
+      box-shadow: 0 2px 6px rgba(234, 88, 12, 0.3) !important;
+    }
+    .flatpickr-time {
+      border-top: 1px solid var(--border) !important;
+      margin-top: 8px !important;
+      padding-top: 6px !important;
+    }
+    .flatpickr-time input {
+      color: var(--text-main) !important;
+      font-weight: 600 !important;
+      font-size: 13px !important;
+    }
+    .flatpickr-time input:hover,
+    .flatpickr-time input:focus {
+      background: var(--bg-hover) !important;
+    }
+
+    /* ── Header ── */
     .topbar {
-      height: 62px;
+      height: 58px;
       background: var(--bg-surface);
       border-bottom: 1px solid var(--border);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 12px;
       padding: 0 20px;
       flex-shrink: 0;
-      box-shadow: var(--shadow-sm);
-      z-index: 20;
+      z-index: 30;
     }
     .brand {
       display: flex;
@@ -89,140 +207,170 @@
       flex-shrink: 0;
     }
     .brand-logo {
-      width: 36px;
-      height: 36px;
-      border-radius: 10px;
-      background: linear-gradient(135deg, #f97316, #ea580c);
-      color: #fff;
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: var(--text-main);
+      color: var(--bg-surface);
       display: flex;
       align-items: center;
       justify-content: center;
+      font-family: 'Plus Jakarta Sans', sans-serif;
       font-weight: 800;
-      font-size: 17px;
-      box-shadow: 0 4px 10px rgba(249, 115, 22, 0.3);
-      flex-shrink: 0;
+      font-size: 15px;
+      position: relative;
+    }
+    .brand-logo::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      right: -2px;
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--brand);
+      border: 2px solid var(--bg-surface);
     }
     .brand-title {
+      font-family: 'Plus Jakarta Sans', sans-serif;
       font-weight: 700;
-      font-size: 15px;
-      letter-spacing: -0.2px;
+      font-size: 14.5px;
+      letter-spacing: -0.3px;
       white-space: nowrap;
     }
-    .brand-sub {
-      font-size: 11.5px;
-      color: var(--text-muted);
-      margin-top: 1px;
-      white-space: nowrap;
+    .brand-tag {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 7px;
+      border-radius: 6px;
+      background: var(--brand-soft);
+      color: var(--brand);
+      border: 1px solid var(--brand-border);
     }
 
-    /* Workflow Stepper in Header */
+    /* Clean Linear-Style Stepper */
     .stepper {
       display: flex;
       align-items: center;
       gap: 4px;
-      background: var(--bg-subtle);
-      padding: 4px 10px;
-      border-radius: 999px;
+      background: var(--bg-muted);
+      padding: 4px 6px;
+      border-radius: 10px;
       border: 1px solid var(--border);
-      flex-shrink: 0;
     }
     .step-item {
       display: flex;
       align-items: center;
       gap: 6px;
       font-size: 12px;
-      font-weight: 600;
+      font-weight: 500;
       color: var(--text-muted);
-      padding: 4px 9px;
-      border-radius: 999px;
-      transition: 0.2s;
+      padding: 4px 10px;
+      border-radius: 7px;
       white-space: nowrap;
+      transition: 0.15s;
     }
     .step-item.active {
-      background: var(--primary-soft);
-      color: var(--primary);
-      border: 1px solid var(--primary-border);
+      background: var(--bg-surface);
+      color: var(--text-main);
+      font-weight: 600;
+      box-shadow: var(--shadow-xs);
     }
     .step-item.done {
       color: var(--success);
     }
-    .step-num {
-      width: 19px;
-      height: 19px;
+    .step-dot {
+      width: 6px;
+      height: 6px;
       border-radius: 50%;
-      background: var(--border);
-      color: var(--text-secondary);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 11px;
-      font-weight: 700;
-      flex-shrink: 0;
+      background: var(--border-strong);
     }
-    .step-item.active .step-num {
-      background: var(--primary);
-      color: #fff;
+    .step-item.active .step-dot {
+      background: var(--brand);
+      box-shadow: 0 0 0 3px var(--brand-soft);
     }
-    .step-item.done .step-num {
+    .step-item.done .step-dot {
       background: var(--success);
-      color: #fff;
     }
-    .step-arrow { color: var(--border-strong); font-size: 12px; }
+    .step-sep {
+      color: var(--border-strong);
+      font-size: 11px;
+    }
 
+    /* Custom Styled Select Wrapper */
     .topbar-controls {
       display: flex;
       align-items: center;
       gap: 8px;
-      flex-shrink: 0;
     }
-    .control-pill {
-      display: flex;
+    .select-box {
+      position: relative;
+      display: inline-flex;
       align-items: center;
-      gap: 4px;
-      background: var(--bg-subtle);
+      background: var(--bg-surface);
       border: 1px solid var(--border);
-      padding: 4px 8px;
       border-radius: var(--radius-sm);
-      font-size: 12px;
+      padding: 0 8px 0 10px;
+      height: 34px;
+      gap: 6px;
       color: var(--text-secondary);
-      white-space: nowrap;
+      transition: 0.15s;
+      box-shadow: var(--shadow-xs);
     }
-    .control-pill select {
+    .select-box:hover {
+      border-color: var(--border-strong);
+      background: var(--bg-muted);
+    }
+    .select-box select {
+      appearance: none;
+      -webkit-appearance: none;
       border: none;
       background: transparent;
       color: var(--text-main);
-      font-weight: 600;
+      font-family: inherit;
       font-size: 12px;
-      padding: 2px;
+      font-weight: 500;
+      padding-right: 18px;
       cursor: pointer;
+      height: 100%;
     }
-    .control-pill select:focus { outline: none; }
-    .theme-btn {
-      background: var(--bg-subtle);
-      border: 1px solid var(--border);
-      color: var(--text-secondary);
-      width: 36px;
-      height: 36px;
+    .select-box select:focus { outline: none; }
+    .select-chevron {
+      position: absolute;
+      right: 8px;
+      pointer-events: none;
+      color: var(--text-muted);
+    }
+
+    .icon-btn {
+      width: 34px;
+      height: 34px;
       border-radius: var(--radius-sm);
-      cursor: pointer;
-      display: flex;
+      border: 1px solid var(--border);
+      background: var(--bg-surface);
+      color: var(--text-secondary);
+      display: inline-flex;
       align-items: center;
       justify-content: center;
-      font-size: 16px;
+      cursor: pointer;
       transition: 0.15s;
+      box-shadow: var(--shadow-xs);
     }
-    .theme-btn:hover { background: var(--bg-hover); color: var(--text-main); }
+    .icon-btn:hover {
+      background: var(--bg-hover);
+      color: var(--text-main);
+      border-color: var(--border-strong);
+    }
 
-    /* ── Main 3-Column Workspace Layout ── */
+    /* ── Main 3-Column Layout ── */
     .workspace-grid {
       flex: 1;
       display: grid;
-      grid-template-columns: 390px 1fr 390px;
-      gap: 16px;
-      padding: 16px;
+      grid-template-columns: 380px 1fr 370px;
+      gap: 14px;
+      padding: 14px;
       overflow: hidden;
     }
-
     .card-col {
       background: var(--bg-surface);
       border: 1px solid var(--border);
@@ -232,44 +380,59 @@
       flex-direction: column;
       overflow: hidden;
     }
-
     .col-header {
-      padding: 14px 18px;
+      height: 52px;
+      padding: 0 16px;
       border-bottom: 1px solid var(--border);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      background: var(--bg-surface);
       flex-shrink: 0;
     }
     .col-header-title {
       display: flex;
       align-items: center;
       gap: 8px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
       font-weight: 700;
-      font-size: 14.5px;
+      font-size: 13.5px;
+      color: var(--text-main);
     }
-    .col-header-sub {
-      font-size: 12px;
-      color: var(--text-muted);
-      font-weight: 500;
+    .online-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--success);
+      background: var(--success-soft);
+      border: 1px solid var(--success-border);
+      padding: 2px 8px;
+      border-radius: 999px;
+    }
+    .online-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--success);
     }
 
-    /* ── Left Column: Friendly AI Chat Assistant ── */
+    /* ── Left Column: AI Chat ── */
     .prompt-suggestions {
       padding: 10px 14px;
-      background: var(--bg-subtle);
+      background: var(--bg-muted);
       border-bottom: 1px solid var(--border);
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 7px;
     }
     .prompt-label {
       font-size: 11px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.4px;
+      font-weight: 600;
       color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 5px;
     }
     .prompt-chips {
       display: flex;
@@ -280,22 +443,22 @@
       background: var(--bg-surface);
       border: 1px solid var(--border);
       color: var(--text-secondary);
-      font-size: 12px;
+      font-family: inherit;
+      font-size: 11.5px;
       font-weight: 500;
-      padding: 6px 11px;
-      border-radius: 999px;
+      padding: 5px 10px;
+      border-radius: 8px;
       cursor: pointer;
       transition: all 0.15s ease;
       display: inline-flex;
       align-items: center;
       gap: 5px;
-      box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+      box-shadow: var(--shadow-xs);
     }
     .chip:hover {
-      border-color: var(--primary);
-      color: var(--primary);
-      background: var(--primary-soft);
-      transform: translateY(-1px);
+      border-color: var(--brand);
+      color: var(--brand);
+      background: var(--brand-soft);
     }
 
     .chat-stream {
@@ -305,79 +468,78 @@
       display: flex;
       flex-direction: column;
       gap: 14px;
-      scroll-behavior: smooth;
     }
     .chat-row {
       display: flex;
-      gap: 10px;
-      align-items: flex-end;
+      gap: 9px;
+      align-items: flex-start;
     }
     .chat-row.user {
       flex-direction: row-reverse;
     }
     .avatar {
-      width: 30px;
-      height: 30px;
-      border-radius: 50%;
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 13px;
+      font-size: 11px;
       font-weight: 700;
       flex-shrink: 0;
+      margin-top: 2px;
     }
     .avatar.ai {
-      background: var(--primary-soft);
-      color: var(--primary);
-      border: 1px solid var(--primary-border);
+      background: var(--text-main);
+      color: var(--bg-surface);
     }
     .avatar.user {
-      background: var(--accent-blue);
-      color: #fff;
+      background: var(--brand-soft);
+      color: var(--brand);
+      border: 1px solid var(--brand-border);
     }
     .bubble {
-      max-width: 84%;
-      padding: 12px 15px;
-      border-radius: 14px;
-      font-size: 13.5px;
-      line-height: 1.55;
+      max-width: 86%;
+      padding: 11px 14px;
+      border-radius: 12px;
+      font-size: 13px;
+      line-height: 1.6;
       word-break: break-word;
     }
     .chat-row.assistant .bubble {
-      background: var(--bg-subtle);
+      background: var(--bg-muted);
       border: 1px solid var(--border);
       color: var(--text-main);
-      border-bottom-left-radius: 4px;
+      border-top-left-radius: 4px;
     }
     .chat-row.user .bubble {
-      background: linear-gradient(135deg, #f97316, #ea580c);
-      color: #fff;
-      border-bottom-right-radius: 4px;
-      box-shadow: 0 3px 10px rgba(249, 115, 22, 0.22);
+      background: var(--text-main);
+      color: var(--bg-surface);
+      border-top-right-radius: 4px;
     }
     .bubble-actions {
       margin-top: 10px;
-      padding-top: 8px;
-      border-top: 1px dashed var(--border);
+      padding-top: 9px;
+      border-top: 1px solid var(--border);
       display: flex;
       flex-wrap: wrap;
       gap: 6px;
     }
+
     .typing-indicator {
       display: none;
       align-items: center;
       gap: 8px;
-      padding: 8px 14px;
-      font-size: 12.5px;
+      padding: 8px 16px;
+      font-size: 12px;
       color: var(--text-muted);
-      font-style: italic;
     }
     .dot-pulse {
-      width: 7px;
-      height: 7px;
+      width: 6px;
+      height: 6px;
       border-radius: 50%;
-      background: var(--primary);
-      animation: pulse 1s infinite alternate;
+      background: var(--brand);
+      animation: pulse 0.9s infinite alternate;
     }
     @keyframes pulse {
       from { opacity: 0.3; transform: scale(0.8); }
@@ -393,25 +555,24 @@
       display: flex;
       align-items: center;
       gap: 6px;
-      background: var(--bg-subtle);
-      border: 1.5px solid var(--border-strong);
-      border-radius: 14px;
-      padding: 5px 6px 5px 8px;
+      background: var(--bg-muted);
+      border: 1px solid var(--border-strong);
+      border-radius: 11px;
+      padding: 4px 5px 4px 6px;
       transition: all 0.15s ease;
     }
     .composer-inner:focus-within {
-      border-color: var(--primary);
+      border-color: var(--text-main);
       background: var(--bg-surface);
-      box-shadow: 0 0 0 3px var(--primary-soft);
+      box-shadow: 0 0 0 3px rgba(15, 23, 42, 0.06);
     }
     .attach-btn {
-      width: 34px;
-      height: 34px;
-      border-radius: 9px;
+      width: 32px;
+      height: 32px;
+      border-radius: 7px;
       border: none;
       background: transparent;
-      color: var(--text-secondary);
-      font-size: 17px;
+      color: var(--text-muted);
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -421,7 +582,7 @@
     }
     .attach-btn:hover {
       background: var(--bg-hover);
-      color: var(--primary);
+      color: var(--text-main);
     }
     .composer-inner textarea {
       flex: 1;
@@ -429,7 +590,7 @@
       background: transparent;
       color: var(--text-main);
       padding: 6px 4px;
-      font-size: 13.5px;
+      font-size: 13px;
       font-family: inherit;
       resize: none;
       height: 32px;
@@ -437,38 +598,35 @@
       line-height: 20px;
       overflow-y: hidden;
     }
-    .composer-inner textarea:focus {
-      outline: none;
-    }
+    .composer-inner textarea:focus { outline: none; }
     .send-btn {
-      height: 36px;
-      padding: 0 14px;
-      border-radius: 10px;
+      height: 32px;
+      padding: 0 12px;
+      border-radius: 8px;
       border: none;
-      background: linear-gradient(135deg, #f97316, #ea580c);
+      background: var(--brand);
       color: #fff;
-      font-weight: 700;
-      font-size: 13px;
+      font-weight: 600;
+      font-size: 12.5px;
       font-family: inherit;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 4px;
+      gap: 5px;
       flex-shrink: 0;
-      box-shadow: 0 2px 6px rgba(249, 115, 22, 0.25);
       transition: 0.15s;
     }
     .send-btn:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 4px 10px rgba(249, 115, 22, 0.35);
+      background: var(--brand-hover);
     }
 
-    /* ── Buttons ── */
+    /* ── Harmonious Modern Button System (Shadcn Style) ── */
     .btn {
-      border: none;
-      border-radius: 10px;
-      padding: 9px 15px;
-      font-size: 13px;
+      border: 1px solid transparent;
+      border-radius: var(--radius-sm);
+      padding: 0 14px;
+      height: 36px;
+      font-size: 12.5px;
       font-weight: 600;
       font-family: inherit;
       cursor: pointer;
@@ -480,224 +638,271 @@
       white-space: nowrap;
     }
     .btn:disabled {
-      opacity: 0.5;
+      opacity: 0.45;
       cursor: not-allowed;
     }
-    .btn-primary {
-      background: linear-gradient(135deg, #f97316, #ea580c);
+    .btn-dark {
+      background: var(--dark-btn);
+      color: var(--bg-surface);
+      box-shadow: var(--shadow-xs);
+    }
+    .btn-dark:hover:not(:disabled) {
+      background: var(--dark-btn-hover);
+    }
+    .btn-brand {
+      background: var(--brand);
       color: #fff;
-      box-shadow: 0 2px 8px rgba(249, 115, 22, 0.25);
+      box-shadow: 0 1px 3px rgba(234, 88, 12, 0.25);
     }
-    .btn-primary:hover:not(:disabled) {
-      transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(249, 115, 22, 0.35);
-    }
-    .btn-success {
-      background: var(--success);
-      color: #fff;
-      box-shadow: 0 2px 8px rgba(16, 185, 129, 0.25);
-    }
-    .btn-success:hover:not(:disabled) {
-      background: #059669;
-      transform: translateY(-1px);
-    }
-    .btn-blue {
-      background: var(--accent-blue);
-      color: #fff;
-      box-shadow: 0 2px 8px rgba(37, 99, 235, 0.22);
-    }
-    .btn-blue:hover:not(:disabled) {
-      background: #1d4ed8;
-      transform: translateY(-1px);
+    .btn-brand:hover:not(:disabled) {
+      background: var(--brand-hover);
     }
     .btn-outline {
       background: var(--bg-surface);
-      color: var(--text-secondary);
-      border: 1px solid var(--border-strong);
+      color: var(--text-main);
+      border-color: var(--border-strong);
+      box-shadow: var(--shadow-xs);
     }
     .btn-outline:hover:not(:disabled) {
       background: var(--bg-hover);
-      color: var(--text-main);
     }
-    .btn-danger-ghost {
+    .btn-ghost-danger {
+      background: transparent;
+      color: var(--text-muted);
+      border-color: transparent;
+    }
+    .btn-ghost-danger:hover:not(:disabled) {
       background: var(--danger-soft);
       color: var(--danger);
-      border: 1px solid rgba(239, 68, 68, 0.25);
-    }
-    .btn-danger-ghost:hover:not(:disabled) {
-      background: var(--danger);
-      color: #fff;
     }
     .btn-sm {
-      padding: 6px 11px;
+      height: 30px;
+      padding: 0 10px;
       font-size: 12px;
-      border-radius: 8px;
+      border-radius: 7px;
     }
 
-    /* ── Center Column: Friendly Content Studio ── */
-    .center-mode-tabs {
-      display: flex;
-      gap: 6px;
-      background: var(--bg-subtle);
-      padding: 4px;
-      border-radius: 10px;
+    /* ── Center Column: Studio ── */
+    .segmented-control {
+      display: inline-flex;
+      background: var(--bg-muted);
+      padding: 3px;
+      border-radius: 8px;
       border: 1px solid var(--border);
     }
-    .mode-tab {
+    .seg-item {
       border: none;
       background: transparent;
-      color: var(--text-secondary);
-      padding: 6px 12px;
-      border-radius: 7px;
-      font-size: 12.5px;
+      color: var(--text-muted);
+      padding: 4px 11px;
+      border-radius: 6px;
+      font-size: 12px;
       font-weight: 600;
-      cursor: pointer;
       font-family: inherit;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
       transition: 0.15s;
     }
-    .mode-tab.active {
+    .seg-item.active {
       background: var(--bg-surface);
-      color: var(--primary);
-      box-shadow: var(--shadow-sm);
+      color: var(--text-main);
+      box-shadow: var(--shadow-xs);
     }
 
     .studio-body {
       flex: 1;
       overflow-y: auto;
-      padding: 18px 22px;
+      padding: 18px 20px;
       display: flex;
       flex-direction: column;
       gap: 16px;
     }
 
-    /* Empty State when no article selected */
     .empty-studio {
       margin: auto;
       text-align: center;
-      max-width: 440px;
-      padding: 36px 20px;
+      max-width: 400px;
+      padding: 32px 16px;
     }
-    .empty-icon {
-      width: 64px;
-      height: 64px;
-      border-radius: 20px;
-      background: var(--primary-soft);
-      color: var(--primary);
-      font-size: 30px;
+    .empty-icon-wrap {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: var(--bg-muted);
+      border: 1px solid var(--border);
+      color: var(--text-main);
       display: flex;
       align-items: center;
       justify-content: center;
-      margin: 0 auto 16px;
+      margin: 0 auto 14px;
+      box-shadow: var(--shadow-xs);
     }
     .empty-studio h3 {
-      font-size: 18px;
-      margin-bottom: 8px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 16px;
+      margin-bottom: 6px;
     }
     .empty-studio p {
-      font-size: 13.5px;
+      font-size: 13px;
       color: var(--text-muted);
       line-height: 1.6;
       margin-bottom: 18px;
     }
 
-    /* Status & Platform Banner */
+    /* Top Status Bar inside Studio */
     .article-top-bar {
       display: flex;
       align-items: center;
       justify-content: space-between;
       flex-wrap: wrap;
       gap: 10px;
-      padding: 12px 16px;
+      padding: 10px 14px;
       border-radius: var(--radius-md);
-      background: var(--bg-subtle);
+      background: var(--bg-muted);
       border: 1px solid var(--border);
     }
+
+    /* Status Badges */
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 11.5px;
+      font-weight: 600;
+    }
+    .status-draft, .status-pending_approval {
+      background: var(--warning-soft);
+      color: var(--warning);
+      border: 1px solid rgba(217, 119, 6, 0.25);
+    }
+    .status-approved {
+      background: var(--bg-surface);
+      color: var(--text-main);
+      border: 1px solid var(--border-strong);
+    }
+    .status-scheduled, .status-queued {
+      background: var(--brand-soft);
+      color: var(--brand);
+      border: 1px solid var(--brand-border);
+    }
+    .status-published, .status-succeeded {
+      background: var(--success-soft);
+      color: var(--success);
+      border: 1px solid var(--success-border);
+    }
+    .status-failed {
+      background: var(--danger-soft);
+      color: var(--danger);
+      border: 1px solid rgba(225, 29, 72, 0.25);
+    }
+
+    /* Platform Selector Cards */
     .platform-selector-cards {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
+      gap: 8px;
     }
     .plat-card {
-      border: 1.5px solid var(--border);
+      border: 1px solid var(--border);
       background: var(--bg-surface);
-      border-radius: 10px;
+      border-radius: var(--radius-md);
       padding: 10px 12px;
       cursor: pointer;
-      transition: 0.15s;
+      transition: all 0.15s ease;
       display: flex;
       align-items: center;
-      gap: 9px;
+      gap: 10px;
+      box-shadow: var(--shadow-xs);
     }
     .plat-card:hover {
       border-color: var(--border-strong);
-      background: var(--bg-subtle);
+      background: var(--bg-muted);
     }
     .plat-card.selected {
-      border-color: var(--primary);
-      background: var(--primary-soft);
+      border-color: var(--text-main);
+      background: var(--bg-muted);
+      box-shadow: 0 0 0 1px var(--text-main);
     }
-    .plat-icon {
-      font-size: 20px;
+    .plat-icon-box {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: var(--bg-muted);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-main);
       flex-shrink: 0;
+    }
+    .plat-card.selected .plat-icon-box {
+      background: var(--text-main);
+      color: var(--bg-surface);
+      border-color: var(--text-main);
     }
     .plat-name {
       font-size: 12.5px;
-      font-weight: 700;
-      line-height: 1.25;
+      font-weight: 600;
+      color: var(--text-main);
     }
     .plat-domain {
       font-size: 11px;
       color: var(--text-muted);
     }
 
-    /* Status Pill */
-    .status-pill {
-      display: inline-flex;
+    /* SERP & Browser Preview */
+    .serp-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+      box-shadow: var(--shadow-xs);
+    }
+    .serp-header {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      margin-bottom: 8px;
+      display: flex;
       align-items: center;
-      gap: 6px;
-      padding: 5px 12px;
-      border-radius: 999px;
+      justify-content: space-between;
+    }
+    .serp-url {
       font-size: 12px;
-      font-weight: 700;
+      color: #0d9488;
+      margin-bottom: 2px;
     }
-    .status-draft, .status-pending_approval {
-      background: var(--warning-soft);
-      color: #b45309;
-      border: 1px solid rgba(245, 158, 11, 0.3);
+    .serp-title {
+      font-size: 15.5px;
+      color: #2563eb;
+      font-weight: 600;
+      margin-bottom: 3px;
+      line-height: 1.35;
     }
-    .status-approved {
-      background: var(--accent-blue-soft);
-      color: var(--accent-blue);
-      border: 1px solid rgba(37, 99, 235, 0.3);
-    }
-    .status-scheduled, .status-queued {
-      background: #f3e8ff;
-      color: #7e22ce;
-      border: 1px solid #d8b4fe;
-    }
-    .status-published, .status-succeeded {
-      background: var(--success-soft);
-      color: #047857;
-      border: 1px solid rgba(16, 185, 129, 0.3);
-    }
-    .status-failed {
-      background: var(--danger-soft);
-      color: var(--danger);
-      border: 1px solid rgba(239, 68, 68, 0.3);
+    [data-theme="dark"] .serp-title { color: #60a5fa; }
+    .serp-desc {
+      font-size: 12.5px;
+      color: var(--text-secondary);
+      line-height: 1.5;
     }
 
-    /* Realistic Live Article / Facebook Card Preview */
     .live-preview-wrapper {
       border: 1px solid var(--border);
       border-radius: var(--radius-md);
       background: var(--bg-surface);
       overflow: hidden;
-      box-shadow: var(--shadow-sm);
+      box-shadow: var(--shadow-xs);
     }
     .browser-chrome {
-      background: var(--bg-subtle);
+      background: var(--bg-muted);
       border-bottom: 1px solid var(--border);
-      padding: 8px 14px;
+      padding: 7px 12px;
       display: flex;
       align-items: center;
       gap: 10px;
@@ -707,127 +912,83 @@
       gap: 5px;
     }
     .browser-dots span {
-      width: 10px;
-      height: 10px;
+      width: 9px;
+      height: 9px;
       border-radius: 50%;
       background: var(--border-strong);
     }
-    .browser-dots span:nth-child(1) { background: #f87171; }
-    .browser-dots span:nth-child(2) { background: #fbbf24; }
-    .browser-dots span:nth-child(3) { background: #34d399; }
     .browser-url {
       flex: 1;
       background: var(--bg-surface);
       border: 1px solid var(--border);
       border-radius: 6px;
-      padding: 4px 10px;
-      font-size: 12px;
+      padding: 3px 10px;
+      font-size: 11.5px;
       color: var(--text-muted);
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
     }
     .article-render {
-      padding: 24px 28px;
+      padding: 22px 24px;
       color: var(--text-main);
-      line-height: 1.75;
-      font-size: 14.5px;
+      line-height: 1.7;
+      font-size: 14px;
     }
     .article-render h1.preview-h1 {
-      font-size: 22px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 20px;
       line-height: 1.35;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
       color: #e06400;
     }
     .article-render h2 {
-      font-size: 17.5px;
-      margin: 18px 0 8px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 16px;
+      margin: 16px 0 8px;
       color: #0b2e6f;
     }
-    [data-theme="dark"] .article-render h2 {
-      color: #60a5fa;
-    }
+    [data-theme="dark"] .article-render h2 { color: #93c5fd; }
     .article-render p, .article-render ul {
-      margin-bottom: 12px;
+      margin-bottom: 10px;
       color: var(--text-secondary);
     }
-    .article-render ul { padding-left: 22px; }
+    .article-render ul { padding-left: 20px; }
     .article-render table {
       width: 100%;
       border-collapse: collapse;
-      margin: 14px 0;
-      font-size: 13px;
-      border-radius: 8px;
-      overflow: hidden;
+      margin: 12px 0;
+      font-size: 12.5px;
       border: 1px solid var(--border);
     }
     .article-render th {
-      background: #0b2e6f;
+      background: #0f172a;
       color: #fff;
       text-align: left;
-      padding: 9px 12px;
+      padding: 8px 10px;
       font-weight: 600;
     }
     .article-render td {
-      padding: 8px 12px;
+      padding: 7px 10px;
       border-bottom: 1px solid var(--border);
       color: var(--text-secondary);
     }
-    .article-render tr:nth-child(even) td {
-      background: var(--bg-subtle);
-    }
+    .article-render tr:nth-child(even) td { background: var(--bg-muted); }
     .article-render img {
       max-width: 100%;
-      border-radius: 10px;
-      margin: 10px 0;
+      border-radius: 8px;
+      margin: 8px 0;
       border: 1px solid var(--border);
     }
 
-    /* Google SERP Preview Card */
-    .serp-card {
-      background: var(--bg-surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-md);
-      padding: 16px 20px;
-    }
-    .serp-label {
-      font-size: 11.5px;
-      font-weight: 700;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      margin-bottom: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .serp-url {
-      font-size: 12.5px;
-      color: #0f766e;
-      margin-bottom: 3px;
-    }
-    .serp-title {
-      font-size: 17px;
-      color: #1d4ed8;
-      font-weight: 600;
-      margin-bottom: 4px;
-      line-height: 1.3;
-    }
-    [data-theme="dark"] .serp-title { color: #60a5fa; }
-    [data-theme="dark"] .serp-url { color: #34d399; }
-    .serp-desc {
-      font-size: 13px;
-      color: var(--text-secondary);
-      line-height: 1.5;
-    }
-
-    /* Friendly Form Inputs */
+    /* Form Fields & Modern Date/Time Picker Box */
     .field-group {
       display: flex;
       flex-direction: column;
       gap: 5px;
     }
     .field-label {
-      font-size: 12.5px;
+      font-size: 12px;
       font-weight: 600;
       color: var(--text-secondary);
       display: flex;
@@ -841,64 +1002,69 @@
     }
     .char-counter.good { color: var(--success); }
     .char-counter.warn { color: var(--warning); }
-    .field-input {
+
+    .field-input, .input-with-icon {
       background: var(--bg-surface);
       border: 1px solid var(--border-strong);
       color: var(--text-main);
-      border-radius: 9px;
-      padding: 9px 12px;
-      font-size: 13.5px;
+      border-radius: var(--radius-sm);
+      padding: 8px 11px;
+      font-size: 13px;
       font-family: inherit;
       transition: 0.15s;
+      box-shadow: var(--shadow-xs);
     }
     .field-input:focus {
       outline: none;
-      border-color: var(--primary);
-      box-shadow: 0 0 0 3px var(--primary-soft);
+      border-color: var(--text-main);
+      box-shadow: 0 0 0 3px rgba(15, 23, 42, 0.06);
+    }
+    .input-icon-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    .input-icon-wrap svg {
+      position: absolute;
+      left: 11px;
+      color: var(--text-muted);
+      pointer-events: none;
+    }
+    .input-icon-wrap input {
+      width: 100%;
+      padding-left: 34px;
+      cursor: pointer;
     }
 
-    /* Friendly Schedule Card */
+    /* Modern Schedule Card */
     .schedule-box {
-      background: var(--bg-subtle);
+      background: var(--bg-muted);
       border: 1px solid var(--border);
       border-radius: var(--radius-md);
       padding: 14px 16px;
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 12px;
     }
     .schedule-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1.2fr 1fr;
       gap: 10px;
     }
-    .quick-time-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      align-items: center;
-    }
 
-    /* Preflight Checklist Card */
+    /* Checklist Card */
     .checklist-card {
-      background: var(--bg-subtle);
+      background: var(--bg-muted);
       border: 1px solid var(--border);
       border-radius: var(--radius-md);
-      padding: 14px 16px;
-    }
-    .score-ring {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-weight: 700;
-      font-size: 13px;
-      padding: 3px 10px;
-      border-radius: 999px;
+      padding: 12px 15px;
+      font-size: 12.5px;
     }
 
-    /* Bottom Action Footer */
+    /* Sticky Action Footer (Clean, Non-Clashing Hierarchy) */
     .studio-footer {
-      padding: 14px 20px;
+      height: 60px;
+      padding: 0 20px;
       background: var(--bg-surface);
       border-top: 1px solid var(--border);
       display: flex;
@@ -908,60 +1074,64 @@
       flex-shrink: 0;
     }
 
-    /* ── Right Column: Posts & Visual Schedule Queue ── */
+    /* ── Right Column: Queue & Calendar ── */
     .seg-tabs {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
       gap: 4px;
-      padding: 10px 14px;
-      background: var(--bg-subtle);
+      padding: 8px 12px;
+      background: var(--bg-muted);
       border-bottom: 1px solid var(--border);
     }
     .seg-btn {
       border: none;
       background: transparent;
-      color: var(--text-secondary);
-      padding: 7px 8px;
-      border-radius: 8px;
+      color: var(--text-muted);
+      padding: 6px 8px;
+      border-radius: 7px;
       font-size: 12px;
       font-weight: 600;
       cursor: pointer;
       font-family: inherit;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
       transition: 0.15s;
     }
     .seg-btn.active {
       background: var(--bg-surface);
-      color: var(--primary);
-      box-shadow: var(--shadow-sm);
+      color: var(--text-main);
+      box-shadow: var(--shadow-xs);
     }
     .queue-list {
       flex: 1;
       overflow-y: auto;
-      padding: 14px;
+      padding: 12px;
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 8px;
     }
     .post-card {
       background: var(--bg-surface);
-      border: 1.5px solid var(--border);
+      border: 1px solid var(--border);
       border-radius: var(--radius-md);
       padding: 12px 14px;
       cursor: pointer;
       transition: all 0.15s ease;
+      box-shadow: var(--shadow-xs);
     }
     .post-card:hover {
       border-color: var(--border-strong);
-      transform: translateY(-1px);
-      box-shadow: var(--shadow-sm);
+      background: var(--bg-muted);
     }
     .post-card.active {
-      border-color: var(--primary);
-      background: var(--primary-soft);
+      border-color: var(--text-main);
+      box-shadow: 0 0 0 1px var(--text-main);
     }
     .post-card-title {
-      font-size: 13.5px;
-      font-weight: 700;
+      font-size: 13px;
+      font-weight: 600;
       line-height: 1.4;
       margin-bottom: 8px;
       color: var(--text-main);
@@ -976,44 +1146,41 @@
       color: var(--text-muted);
     }
 
-    /* ── Toast & Custom Modal ── */
+    /* ── Toast & Modal ── */
     .toast-container {
       position: fixed;
-      top: 76px;
-      right: 24px;
+      bottom: 20px;
+      right: 20px;
       z-index: 9999;
       display: flex;
       flex-direction: column;
       gap: 8px;
     }
     .toast {
-      background: var(--bg-surface);
-      color: var(--text-main);
-      border-left: 4px solid var(--primary);
+      background: var(--text-main);
+      color: var(--bg-surface);
       border-radius: 10px;
-      padding: 12px 16px;
+      padding: 11px 15px;
       box-shadow: var(--shadow-lg);
-      font-size: 13px;
+      font-size: 12.5px;
       font-weight: 500;
       display: flex;
       align-items: center;
-      gap: 10px;
-      min-width: 280px;
-      max-width: 400px;
-      animation: slideIn 0.2s ease;
+      gap: 9px;
+      min-width: 260px;
+      max-width: 380px;
+      animation: slideUp 0.2s ease;
     }
-    .toast.success { border-left-color: var(--success); }
-    .toast.error { border-left-color: var(--danger); }
-    @keyframes slideIn {
-      from { opacity: 0; transform: translateX(20px); }
-      to { opacity: 1; transform: translateX(0); }
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .modal-backdrop {
       position: fixed;
       inset: 0;
-      background: rgba(15, 23, 42, 0.55);
-      backdrop-filter: blur(3px);
+      background: rgba(9, 9, 11, 0.5);
+      backdrop-filter: blur(2px);
       display: none;
       align-items: center;
       justify-content: center;
@@ -1022,21 +1189,22 @@
     .modal-card {
       background: var(--bg-surface);
       border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 24px;
+      border-radius: 14px;
+      padding: 22px;
       width: 92%;
-      max-width: 420px;
+      max-width: 400px;
       box-shadow: var(--shadow-lg);
     }
     .modal-card h3 {
-      font-size: 17px;
-      margin-bottom: 8px;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 15.5px;
+      margin-bottom: 6px;
     }
     .modal-card p {
-      font-size: 13.5px;
-      color: var(--text-secondary);
+      font-size: 13px;
+      color: var(--text-muted);
       line-height: 1.55;
-      margin-bottom: 20px;
+      margin-bottom: 18px;
     }
     .modal-actions {
       display: flex;
@@ -1047,17 +1215,15 @@
 </head>
 <body>
 
-  <!-- Toast Notification Container -->
   <div class="toast-container" id="toastContainer"></div>
 
-  <!-- Friendly Confirmation Modal -->
   <div class="modal-backdrop" id="confirmModal">
     <div class="modal-card">
       <h3 id="modalTitle">Xác nhận thao tác</h3>
       <p id="modalMessage">Bạn có chắc chắn muốn thực hiện thao tác này?</p>
       <div class="modal-actions">
-        <button class="btn btn-outline" onclick="closeModal()">Hủy bỏ</button>
-        <button class="btn btn-primary" id="modalConfirmBtn">Đồng ý</button>
+        <button class="btn btn-outline" onclick="closeModal()">Hủy</button>
+        <button class="btn btn-brand" id="modalConfirmBtn">Xác nhận</button>
       </div>
     </div>
   </div>
@@ -1066,82 +1232,98 @@
   <header class="topbar">
     <div class="brand">
       <div class="brand-logo">V</div>
-      <div>
-        <div class="brand-title">VTECH AI Content Studio</div>
-        <div class="brand-sub">Trợ lý Viết bài, Chuẩn hóa SEO &amp; Lên lịch Tự động</div>
-      </div>
+      <span class="brand-title">VTECH Studio</span>
+      <span class="brand-tag">AI SEO &amp; Scheduler</span>
     </div>
 
-    <!-- Guided 4-Step Progress Bar -->
     <div class="stepper" id="workflowStepper">
       <div class="step-item active" id="step1">
-        <span class="step-num">1</span>
-        <span>Yêu cầu AI</span>
+        <span class="step-dot"></span>
+        <span>1. Soạn bài</span>
       </div>
-      <span class="step-arrow">›</span>
+      <span class="step-sep">/</span>
       <div class="step-item" id="step2">
-        <span class="step-num">2</span>
-        <span>Xem &amp; Chỉnh sửa</span>
+        <span class="step-dot"></span>
+        <span>2. Kiểm tra</span>
       </div>
-      <span class="step-arrow">›</span>
+      <span class="step-sep">/</span>
       <div class="step-item" id="step3">
-        <span class="step-num">3</span>
-        <span>Duyệt bài</span>
+        <span class="step-dot"></span>
+        <span>3. Phê duyệt</span>
       </div>
-      <span class="step-arrow">›</span>
+      <span class="step-sep">/</span>
       <div class="step-item" id="step4">
-        <span class="step-num">4</span>
-        <span>Đăng / Hẹn giờ</span>
+        <span class="step-dot"></span>
+        <span>4. Xuất bản</span>
       </div>
     </div>
 
     <div class="topbar-controls">
-      <div class="control-pill" title="Chế độ xuất bản: Nháp thử nghiệm hoặc Đăng thật lên Website">
-        <span>⚡</span>
+      <div class="select-box" title="Chế độ xuất bản">
+        <i data-lucide="radio"></i>
         <select id="modeSelect" onchange="togglePublishMode()">
-          <option value="sandbox">🧪 Chế độ Nháp (An toàn)</option>
-          <option value="live">🌐 Đăng Thật Lên Web (Live)</option>
+          <option value="sandbox">Chế độ Nháp (Sandbox)</option>
+          <option value="live">Đăng thật (Live Web)</option>
         </select>
+        <i data-lucide="chevron-down" class="select-chevron"></i>
       </div>
-      <div class="control-pill" title="Múi giờ lên lịch">
-        <span>🌏</span>
+
+      <div class="select-box" title="Múi giờ">
+        <i data-lucide="clock"></i>
         <select id="tzSelect">
-          <option value="Asia/Ho_Chi_Minh">Giờ Việt Nam (GMT+7)</option>
-          <option value="UTC">Giờ Quốc tế (UTC)</option>
+          <option value="Asia/Ho_Chi_Minh">GMT+7 (Việt Nam)</option>
+          <option value="UTC">UTC (Quốc tế)</option>
         </select>
+        <i data-lucide="chevron-down" class="select-chevron"></i>
       </div>
-      <div class="control-pill" title="Không gian làm việc (Workspace)">
-        <span>🏢</span>
+
+      <div class="select-box" title="Workspace">
+        <i data-lucide="layers"></i>
         <select id="wsSelect" onchange="switchWorkspace()">
-          <option value="vtech-session-main-2026">VTECH Team (Chính)</option>
-          <option value="vtech-session-editor-2026">VTECH Biên tập viên</option>
-          <option value="agency-session-isolated-2026">Agency Đối tác (Độc lập)</option>
+          <option value="vtech-session-main-2026">VTECH Team</option>
+          <option value="vtech-session-editor-2026">VTECH Editor</option>
+          <option value="agency-session-isolated-2026">Agency Đối tác</option>
         </select>
+        <i data-lucide="chevron-down" class="select-chevron"></i>
       </div>
-      <button class="theme-btn" onclick="toggleTheme()" title="Đổi giao diện Sáng / Tối" id="themeBtn">🌙</button>
+
+      <button class="icon-btn" onclick="toggleTheme()" title="Giao diện Sáng / Tối" id="themeBtn">
+        <i data-lucide="moon"></i>
+      </button>
     </div>
   </header>
 
   <!-- Main 3-Column Studio -->
   <main class="workspace-grid">
 
-    <!-- COLUMN 1: AI Chat Assistant -->
+    <!-- COLUMN 1: AI Assistant -->
     <section class="card-col">
       <div class="col-header">
-        <div>
-          <div class="col-header-title">💬 Trợ Lý Nội Dung AI</div>
-          <div class="col-header-sub">Hiểu tiếng Việt &amp; tiếng Anh tự nhiên</div>
+        <div class="col-header-title">
+          <i data-lucide="sparkles"></i>
+          <span>Trợ lý Nội dung AI</span>
         </div>
-        <span class="status-pill status-published" style="font-size:11px;padding:3px 9px;">● Trực tuyến</span>
+        <span class="online-badge"><span class="online-dot"></span> Sẵn sàng</span>
       </div>
 
       <div class="prompt-suggestions">
-        <div class="prompt-label">💡 Gợi ý mẫu (Bấm để thử ngay):</div>
+        <div class="prompt-label">
+          <i data-lucide="zap" style="width:13px;height:13px;"></i>
+          <span>Mẫu yêu cầu nhanh</span>
+        </div>
         <div class="prompt-chips">
-          <button class="chip" onclick="sendQuick('Viết bài giới thiệu sản phẩm mới và đăng lên Facebook.')">📱 Bài sản phẩm mới (Facebook)</button>
-          <button class="chip" onclick="sendQuick('Tạo 3 bài SEO cho website về camera an ninh.')">🔍 Tạo 3 bài SEO Website</button>
-          <button class="chip" onclick="sendQuick('Đăng bài này lên website vào 9 giờ sáng mai.')">⏰ Hẹn đăng 9h sáng mai</button>
-          <button class="chip" onclick="sendQuick('Lên lịch đăng bài Facebook mỗi ngày trong tuần tới.')">🗓️ Lịch Facebook cả tuần</button>
+          <button class="chip" onclick="sendQuick('Viết bài giới thiệu sản phẩm mới và đăng lên Facebook.')">
+            <i data-lucide="share-2" style="width:12px;height:12px;"></i> Bài sản phẩm mới (FB)
+          </button>
+          <button class="chip" onclick="sendQuick('Tạo 3 bài SEO cho website về camera an ninh.')">
+            <i data-lucide="file-stack" style="width:12px;height:12px;"></i> Tạo 3 bài chuẩn SEO
+          </button>
+          <button class="chip" onclick="sendQuick('Đăng bài này lên website vào 9 giờ sáng mai.')">
+            <i data-lucide="calendar-clock" style="width:12px;height:12px;"></i> Hẹn 9h sáng mai
+          </button>
+          <button class="chip" onclick="sendQuick('Lên lịch đăng bài Facebook mỗi ngày trong tuần tới.')">
+            <i data-lucide="repeat" style="width:12px;height:12px;"></i> Lịch đăng cả tuần
+          </button>
         </div>
       </div>
 
@@ -1149,154 +1331,149 @@
         <div class="chat-row assistant">
           <div class="avatar ai">AI</div>
           <div class="bubble">
-            <strong>Xin chào bạn! 👋</strong><br>
-            Mình là trợ lý viết bài và lên lịch tự động của <strong>VTECH</strong>.<br><br>
-            Bạn chỉ cần nhắn tự nhiên điều bạn muốn, ví dụ:<br>
+            <strong>Xin chào!</strong> Mình là trợ lý xuất bản nội dung tự động của <strong>VTECH FILM</strong>.<br><br>
+            Bạn có thể đính kèm file <code>.docx</code> hoặc nhắn yêu cầu tự nhiên:<br>
             • <em>"Viết bài về phim cách nhiệt văn phòng cho website chính"</em><br>
             • <em>"Tạo 3 bài SEO cho website về camera an ninh"</em><br>
-            • <em>"Đăng bài này vào 9 giờ sáng mai"</em><br><br>
-            Mình sẽ tự động soạn bài, kiểm tra chuẩn SEO và cho bạn xem trước trước khi đăng!
+            • <em>"Đăng bài này lên website vào 9 giờ sáng mai"</em>
           </div>
         </div>
       </div>
 
       <div class="typing-indicator" id="typingIndicator">
         <span class="dot-pulse"></span>
-        <span>Trợ lý AI đang xử lý nội dung &amp; nén ảnh WebP...</span>
+        <span>Đang xử lý nội dung &amp; tối ưu SEO...</span>
       </div>
 
-      <!-- Attachment Preview Bar -->
-      <div id="attachmentBar" style="display:none;padding:8px 14px;background:var(--primary-soft);border-top:1px solid var(--primary-border);font-size:12px;align-items:center;justify-content:space-between;">
-        <span id="attachmentLabel" style="font-weight:600;color:var(--primary);">📎 Đã chọn file</span>
-        <button class="btn btn-outline btn-sm" onclick="clearAttachments()" style="padding:2px 8px;font-size:11px;">✕ Bỏ chọn</button>
+      <div id="attachmentBar" style="display:none;padding:8px 14px;background:var(--brand-soft);border-top:1px solid var(--brand-border);font-size:12px;align-items:center;justify-content:space-between;">
+        <span id="attachmentLabel" style="font-weight:600;color:var(--brand);">Đã đính kèm file</span>
+        <button class="btn btn-outline btn-sm" onclick="clearAttachments()" style="height:24px;padding:0 8px;font-size:11px;">Bỏ chọn</button>
       </div>
 
       <div class="chat-composer">
         <input type="file" id="docxFileInput" multiple accept=".docx,.jpg,.jpeg,.png,.webp" style="display:none;" onchange="handleFileSelect(event)" />
         <div class="composer-inner">
-          <button class="attach-btn" onclick="document.getElementById('docxFileInput').click()" title="Đính kèm file Word (.docx) và hình ảnh từ máy tính">
-            📎
+          <button class="attach-btn" onclick="document.getElementById('docxFileInput').click()" title="Đính kèm file Word (.docx) & hình ảnh">
+            <i data-lucide="paperclip"></i>
           </button>
           <textarea
             id="chatInput"
             rows="1"
-            placeholder="Nhập yêu cầu hoặc bấm 📎 gửi file .docx..."
+            placeholder="Nhập yêu cầu hoặc đính kèm file .docx..."
             oninput="this.style.height='32px';this.style.height=Math.min(this.scrollHeight,110)+'px';"
             onkeydown="if(event.key==='Enter' && !event.shiftKey){event.preventDefault();sendChat();}"
           ></textarea>
           <button class="send-btn" onclick="sendChat()">
-            Gửi ↑
+            <span>Gửi</span>
+            <i data-lucide="arrow-up" style="width:14px;height:14px;"></i>
           </button>
         </div>
       </div>
     </section>
 
-    <!-- COLUMN 2: Interactive Preview, Friendly Editor & Actions -->
+    <!-- COLUMN 2: Content Studio (Preview & Editor) -->
     <section class="card-col">
       <div class="col-header">
-        <div>
-          <div class="col-header-title">✨ Không Gian Xem Trước &amp; Chỉnh Sửa</div>
-          <div class="col-header-sub" id="activeSubtitle">Kiểm tra nội dung trước khi phê duyệt xuất bản</div>
+        <div class="col-header-title">
+          <i data-lucide="file-text"></i>
+          <span>Trình biên tập &amp; Kiểm định SEO</span>
         </div>
-        <div class="center-mode-tabs">
-          <button class="mode-tab active" id="modeBtnPreview" onclick="switchStudioMode('preview')">👁️ Xem bản hiển thị</button>
-          <button class="mode-tab" id="modeBtnEdit" onclick="switchStudioMode('edit')">✏️ Chỉnh sửa &amp; SEO</button>
+        <div class="segmented-control">
+          <button class="seg-item active" id="modeBtnPreview" onclick="switchStudioMode('preview')">
+            <i data-lucide="eye" style="width:13px;height:13px;"></i> Xem trước
+          </button>
+          <button class="seg-item" id="modeBtnEdit" onclick="switchStudioMode('edit')">
+            <i data-lucide="sliders-horizontal" style="width:13px;height:13px;"></i> Chỉnh sửa &amp; SEO
+          </button>
         </div>
       </div>
 
-      <!-- Empty State (Shown before any post is selected/created) -->
+      <!-- Empty State -->
       <div class="studio-body" id="emptyStudioState">
         <div class="empty-studio">
-          <div class="empty-icon">✨</div>
-          <h3>Chưa có bài viết nào đang mở</h3>
+          <div class="empty-icon-wrap">
+            <i data-lucide="Wand2" style="width:22px;height:22px;"></i>
+          </div>
+          <h3>Chưa có bài viết nào được chọn</h3>
           <p>
-            Hãy bấm vào một gợi ý ở khung chat bên trái hoặc nhập yêu cầu của bạn để AI tự động soạn thảo bài viết chuẩn SEO trong vài giây.
+            Chọn một mẫu gợi ý bên trái, tải lên file Word <code>.docx</code> hoặc nhập chủ đề bất kỳ để AI tự động khởi tạo bài viết chuẩn SEO.
           </p>
-          <div style="display:flex;justify-content:center;gap:8px;flex-wrap:wrap;">
-            <button class="btn btn-primary" onclick="sendQuick('Viết bài về phim cách nhiệt văn phòng chống nắng cho website chính.')">
-              🚀 Tạo thử 1 bài Website ngay
+          <div style="display:flex;justify-content:center;gap:8px;">
+            <button class="btn btn-dark" onclick="sendQuick('Viết bài về phim cách nhiệt văn phòng chống nắng cho website chính.')">
+              <i data-lucide="plus"></i> Tạo bài Website mẫu
             </button>
-            <button class="btn btn-outline" onclick="sendQuick('Viết bài giới thiệu sản phẩm mới và đăng lên Facebook.')">
-              📱 Tạo thử 1 bài Facebook
+            <button class="btn btn-outline" onclick="document.getElementById('docxFileInput').click()">
+              <i data-lucide="upload"></i> Tải lên file .docx
             </button>
           </div>
         </div>
       </div>
 
-      <!-- Active Content Workspace (Hidden when empty) -->
+      <!-- Active Studio State -->
       <div class="studio-body" id="activeStudioState" style="display:none;">
 
-        <!-- Top Status & Quick Regenerate Row -->
         <div class="article-top-bar">
-          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
-            <span id="statusBadge" class="status-pill status-pending_approval">⏳ Chờ bạn duyệt</span>
-            <span id="seoScoreBadge" class="score-ring" style="background:var(--success-soft);color:var(--success);">
-              ✓ Chuẩn kiểm định: 100/100
-            </span>
+          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+            <span id="statusBadge" class="status-pill status-pending_approval">Chờ phê duyệt</span>
+            <span id="seoScoreBadge" class="status-pill status-published">SEO: 100/100</span>
           </div>
-          <div style="display:flex;gap:6px;">
-            <button class="btn btn-outline btn-sm" onclick="regenerateActive()" title="Yêu cầu AI viết lại với cách diễn đạt mới">
-              🔄 Viết lại giọng văn khác
-            </button>
-          </div>
+          <button class="btn btn-outline btn-sm" onclick="regenerateActive()">
+            <i data-lucide="refresh-cw" style="width:13px;height:13px;"></i> Viết lại nội dung
+          </button>
         </div>
 
-        <!-- Alert Banner for Published Link or Error Message -->
-        <div id="resultBanner" style="display:none;padding:12px 16px;border-radius:10px;font-size:13px;"></div>
+        <div id="resultBanner" style="display:none;padding:11px 14px;border-radius:9px;font-size:12.5px;"></div>
 
-        <!-- Visual Platform Selector Cards -->
+        <!-- Platform Cards -->
         <div>
           <div class="field-label" style="margin-bottom:6px;">
-            <span>1. Chọn Nền Tảng Đăng Bài</span>
-            <span style="font-size:11.5px;color:var(--text-muted);font-weight:400;" id="platHintText">Tự động tối ưu cấu trúc theo từng kênh</span>
+            <span>Nền tảng xuất bản</span>
+            <span style="font-size:11px;color:var(--text-muted);font-weight:400;">Tự động điều chỉnh cấu trúc chuẩn theo kênh</span>
           </div>
           <div class="platform-selector-cards">
             <div class="plat-card selected" id="platCard_vtechfilm" onclick="selectPlatformCard('vtechfilm')">
-              <span class="plat-icon">🌐</span>
+              <div class="plat-icon-box"><i data-lucide="globe"></i></div>
               <div>
                 <div class="plat-name">Website Chính</div>
                 <div class="plat-domain">vtechfilm.com</div>
               </div>
             </div>
             <div class="plat-card" id="platCard_onex" onclick="selectPlatformCard('onex')">
-              <span class="plat-icon">🛰️</span>
+              <div class="plat-icon-box"><i data-lucide="network"></i></div>
               <div>
                 <div class="plat-name">Web Vệ Tinh</div>
                 <div class="plat-domain">phimcachnhietdankinh.vn</div>
               </div>
             </div>
             <div class="plat-card" id="platCard_facebook" onclick="selectPlatformCard('facebook')">
-              <span class="plat-icon">📘</span>
+              <div class="plat-icon-box"><i data-lucide="share-2"></i></div>
               <div>
                 <div class="plat-name">Facebook Page</div>
-                <div class="plat-domain">Fanpage VTECH FILM</div>
+                <div class="plat-domain">Fanpage VTECH</div>
               </div>
             </div>
           </div>
           <input type="hidden" id="edPlatform" value="vtechfilm" />
         </div>
 
-        <!-- MODE A: VISUAL LIVE PREVIEW (Default for non-technical users) -->
-        <div id="previewPane" style="display:flex;flex-direction:column;gap:16px;">
-
-          <!-- Google Search Snippet Mockup (Hidden for Facebook) -->
+        <!-- MODE A: Live Preview -->
+        <div id="previewPane" style="display:flex;flex-direction:column;gap:14px;">
           <div class="serp-card" id="googleSerpBox">
-            <div class="serp-label">
-              <span>🔍 Xem trước hiển thị trên Google Tìm Kiếm</span>
-              <span style="font-weight:500;text-transform:none;">Chuẩn Yoast SEO</span>
+            <div class="serp-header">
+              <span style="display:flex;align-items:center;gap:5px;"><i data-lucide="search" style="width:13px;height:13px;"></i> Mô phỏng Kết quả Tìm kiếm Google</span>
+              <span>Yoast SEO</span>
             </div>
             <div class="serp-url" id="serpUrl">https://vtechfilm.com/duong-dan-bai-viet/</div>
             <div class="serp-title" id="serpTitle">Tiêu đề SEO hiển thị trên Google</div>
-            <div class="serp-desc" id="serpDesc">Mô tả ngắn hiển thị trên kết quả tìm kiếm Google giúp thu hút khách hàng bấm vào xem bài viết...</div>
+            <div class="serp-desc" id="serpDesc">Mô tả ngắn hiển thị trên kết quả tìm kiếm Google...</div>
           </div>
 
-          <!-- Realistic Browser / Article Content Preview -->
           <div class="live-preview-wrapper">
             <div class="browser-chrome">
               <div class="browser-dots"><span></span><span></span><span></span></div>
               <div class="browser-url" id="browserUrlBar">https://vtechfilm.com/bai-viet-moi/</div>
-              <button class="btn btn-outline btn-sm" onclick="switchStudioMode('edit')" style="padding:3px 9px;font-size:11px;">
-                ✏️ Sửa nội dung
+              <button class="btn btn-outline btn-sm" onclick="switchStudioMode('edit')" style="height:24px;padding:0 8px;font-size:11px;">
+                Chỉnh sửa
               </button>
             </div>
             <div class="article-render">
@@ -1306,133 +1483,138 @@
           </div>
         </div>
 
-        <!-- MODE B: EASY EDITOR & SEO TUNING -->
-        <div id="editPane" style="display:none;flex-direction:column;gap:14px;">
+        <!-- MODE B: Editor & SEO -->
+        <div id="editPane" style="display:none;flex-direction:column;gap:12px;">
           <div class="field-group">
-            <label class="field-label">
-              <span>Tiêu đề bài viết chính (H1)</span>
-            </label>
-            <input type="text" class="field-input" id="edTitle" oninput="syncLiveCounters()" placeholder="Nhập tiêu đề bài viết..." />
+            <label class="field-label"><span>Tiêu đề bài viết (H1)</span></label>
+            <input type="text" class="field-input" id="edTitle" oninput="syncLiveCounters()" />
           </div>
 
           <div class="field-group">
             <label class="field-label">
-              <span>Nội dung bài viết (Có thể sửa trực tiếp)</span>
-              <span class="char-counter">Hỗ trợ định dạng đoạn văn, tiêu đề H2, danh sách</span>
+              <span>Nội dung bài viết (HTML)</span>
+              <span class="char-counter">Tự động giữ nguyên cấu trúc bảng và hình ảnh</span>
             </label>
-            <textarea class="field-input" id="edBodyHtml" rows="9" oninput="syncLiveCounters()" style="line-height:1.6;font-family:inherit;"></textarea>
+            <textarea class="field-input" id="edBodyHtml" rows="8" oninput="syncLiveCounters()" style="line-height:1.6;"></textarea>
           </div>
 
-          <div id="seoFieldsSection" style="background:var(--bg-subtle);padding:14px;border-radius:12px;border:1px solid var(--border);display:flex;flex-direction:column;gap:12px;">
-            <div style="font-size:13px;font-weight:700;color:var(--text-main);">🎯 Tối Ưu Hóa Tìm Kiếm Google (SEO)</div>
+          <div id="seoFieldsSection" style="background:var(--bg-muted);padding:14px;border-radius:10px;border:1px solid var(--border);display:flex;flex-direction:column;gap:10px;">
+            <div style="font-size:12.5px;font-weight:700;color:var(--text-main);">Cấu hình Thẻ SEO (Google)</div>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
               <div class="field-group">
-                <label class="field-label">
-                  <span>Từ khóa chính (Focus Keyphrase)</span>
-                </label>
-                <input type="text" class="field-input" id="edKeyphrase" placeholder="VD: phim cách nhiệt văn phòng" />
+                <label class="field-label"><span>Từ khóa trọng tâm (Focus Keyphrase)</span></label>
+                <input type="text" class="field-input" id="edKeyphrase" />
               </div>
               <div class="field-group">
-                <label class="field-label">
-                  <span>Đường dẫn tĩnh (Slug URL)</span>
-                </label>
-                <input type="text" class="field-input" id="edSlug" oninput="syncLiveCounters()" placeholder="phim-cach-nhiet-van-phong" />
+                <label class="field-label"><span>Đường dẫn tĩnh (Slug)</span></label>
+                <input type="text" class="field-input" id="edSlug" oninput="syncLiveCounters()" />
               </div>
             </div>
-
             <div class="field-group">
               <label class="field-label">
-                <span>Tiêu đề Google (SEO Title)</span>
-                <span class="char-counter" id="seoTitleCounter">0 / 60 ký tự (Tốt nhất: 30-60)</span>
+                <span>Tiêu đề SEO (SEO Title)</span>
+                <span class="char-counter" id="seoTitleCounter">0 / 60 ký tự</span>
               </label>
               <input type="text" class="field-input" id="edSeoTitle" oninput="syncLiveCounters()" />
             </div>
-
             <div class="field-group">
               <label class="field-label">
-                <span>Mô tả thu hút trên Google (Meta Description)</span>
-                <span class="char-counter" id="metaDescCounter">0 / 160 ký tự (Tốt nhất: 120-160)</span>
+                <span>Thẻ mô tả (Meta Description)</span>
+                <span class="char-counter" id="metaDescCounter">0 / 160 ký tự</span>
               </label>
               <textarea class="field-input" id="edMetaDesc" rows="2" oninput="syncLiveCounters()"></textarea>
             </div>
           </div>
 
           <div style="display:flex;justify-content:flex-end;gap:8px;">
-            <button class="btn btn-outline" onclick="switchStudioMode('preview')">Quay lại Xem trước</button>
-            <button class="btn btn-primary" onclick="saveActiveEdits()">💾 Lưu thay đổi &amp; Kiểm tra lại</button>
+            <button class="btn btn-outline" onclick="switchStudioMode('preview')">Xem trước</button>
+            <button class="btn btn-dark" onclick="saveActiveEdits()">Lưu thay đổi</button>
           </div>
         </div>
 
-        <!-- Friendly Schedule Picker Box -->
+        <!-- Modern Flatpickr Schedule Picker Card -->
         <div class="schedule-box">
           <div class="field-label">
-            <span>📅 2. Cài Đặt Thời Gian Hẹn Giờ Đăng (Tùy chọn)</span>
-            <span style="font-size:11.5px;color:var(--text-muted);font-weight:400;">Chọn nhanh hoặc tự chọn ngày giờ</span>
+            <span style="display:flex;align-items:center;gap:6px;"><i data-lucide="calendar"></i> Thiết lập Lịch hẹn đăng tự động</span>
+            <div style="display:flex;gap:5px;">
+              <button class="chip" onclick="setQuickSchedule(1, 9, 0, '')">09:00 Sáng mai</button>
+              <button class="chip" onclick="setQuickSchedule(1, 14, 0, '')">14:00 Chiều mai</button>
+              <button class="chip" onclick="setQuickSchedule(0, 20, 0, '')">20:00 Tối nay</button>
+              <button class="chip" onclick="setQuickSchedule(1, 9, 0, 'DAILY_7')">Mỗi ngày 9h (7 ngày)</button>
+            </div>
           </div>
-          <div class="quick-time-row">
-            <button class="chip" onclick="setQuickSchedule(1, 9, 0, '')">🌅 9:00 Sáng mai</button>
-            <button class="chip" onclick="setQuickSchedule(1, 14, 0, '')">☀️ 14:00 Chiều mai</button>
-            <button class="chip" onclick="setQuickSchedule(0, 20, 0, '')">🌙 20:00 Tối nay</button>
-            <button class="chip" onclick="setQuickSchedule(1, 9, 0, 'DAILY_7')">🔁 Mỗi ngày 9h sáng (7 ngày tới)</button>
-          </div>
+
           <div class="schedule-grid">
             <div class="field-group">
-              <label class="field-label">Ngày &amp; Giờ đăng</label>
-              <input type="datetime-local" class="field-input" id="edScheduleAt" />
+              <label class="field-label">Thời điểm xuất bản</label>
+              <div class="input-icon-wrap">
+                <i data-lucide="calendar-clock"></i>
+                <input type="text" class="field-input" id="edScheduleAt" placeholder="Chọn ngày &amp; giờ đăng..." readonly />
+              </div>
             </div>
             <div class="field-group">
-              <label class="field-label">Chế độ lặp lại tự động</label>
-              <select class="field-input" id="edRecurrence">
-                <option value="">Đăng 1 lần duy nhất</option>
-                <option value="DAILY">Lặp lại Hàng ngày (Daily)</option>
-                <option value="DAILY_7">Lặp lại 7 ngày liên tiếp (Tuần tới)</option>
-                <option value="WEEKLY">Lặp lại Hàng tuần (Weekly)</option>
-              </select>
+              <label class="field-label">Chu kỳ lặp lại</label>
+              <div class="select-box" style="width:100%;height:37px;">
+                <i data-lucide="repeat"></i>
+                <select id="edRecurrence" style="width:100%;">
+                  <option value="">Đăng 1 lần duy nhất</option>
+                  <option value="DAILY">Lặp lại Hàng ngày</option>
+                  <option value="DAILY_7">Mỗi ngày trong 7 ngày tới</option>
+                  <option value="WEEKLY">Lặp lại Hàng tuần</option>
+                </select>
+                <i data-lucide="chevron-down" class="select-chevron"></i>
+              </div>
             </div>
           </div>
         </div>
 
-        <!-- Preflight Checklist Details -->
+        <!-- Preflight Checklist -->
         <div class="checklist-card" id="validationBox"></div>
       </div>
 
-      <!-- Sticky Bottom Action Bar -->
+      <!-- Harmonious Sticky Action Footer -->
       <div class="studio-footer" id="studioFooter" style="display:none;">
-        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
-          <button class="btn btn-success" id="btnApprove" onclick="approveActive()">
-            ✅ Bước 1: Duyệt Bài Viết
+        <div style="display:flex;align-items:center;gap:8px;">
+          <button class="btn btn-dark" id="btnApprove" onclick="approveActive()">
+            <i data-lucide="check-circle-2"></i>
+            <span>Phê duyệt bài viết</span>
           </button>
-          <button class="btn btn-primary" id="btnPublishNow" onclick="publishNowActive()">
-            🚀 Đăng Ngay Lập Tức
+          <button class="btn btn-brand" id="btnSchedule" onclick="scheduleActive()">
+            <i data-lucide="calendar-check"></i>
+            <span>Hẹn giờ đăng</span>
           </button>
-          <button class="btn btn-blue" id="btnSchedule" onclick="scheduleActive()">
-            📅 Hẹn Giờ Đăng
+          <button class="btn btn-outline" id="btnPublishNow" onclick="publishNowActive()">
+            <i data-lucide="send"></i>
+            <span>Đăng ngay</span>
           </button>
         </div>
-        <button class="btn btn-danger-ghost btn-sm" onclick="deleteActiveContent()" title="Xóa bản nháp này">
-          🗑️ Xóa bài
+        <button class="btn btn-ghost-danger btn-sm" onclick="deleteActiveContent()" title="Xóa bài viết">
+          <i data-lucide="trash-2"></i>
+          <span>Xóa</span>
         </button>
       </div>
     </section>
 
-    <!-- COLUMN 3: Posts List, Scheduled Queue & Calendar -->
+    <!-- COLUMN 3: Queue & Calendar -->
     <section class="card-col">
       <div class="col-header">
-        <div>
-          <div class="col-header-title">🗂️ Quản Lý Bài Viết &amp; Lịch Hẹn</div>
-          <div class="col-header-sub">Tự động lưu trữ an toàn khi tắt máy</div>
+        <div class="col-header-title">
+          <i data-lucide="folder-kanban"></i>
+          <span>Danh sách &amp; Lịch trình</span>
         </div>
       </div>
 
       <div class="seg-tabs">
         <button class="seg-btn active" id="tabBtnDrafts" onclick="switchRightTab('drafts')">
-          📄 Bài viết (<span id="countDrafts">0</span>)
+          <span>Bài viết</span>
+          <span id="countDrafts" style="background:var(--bg-muted);padding:1px 6px;border-radius:99px;font-size:11px;">0</span>
         </button>
         <button class="seg-btn" id="tabBtnJobs" onclick="switchRightTab('jobs')">
-          ⏰ Lịch hẹn (<span id="countJobs">0</span>)
+          <span>Hàng đợi</span>
+          <span id="countJobs" style="background:var(--bg-muted);padding:1px 6px;border-radius:99px;font-size:11px;">0</span>
         </button>
         <button class="seg-btn" id="tabBtnCal" onclick="switchRightTab('calendar')">
-          🗓️ Theo ngày
+          <span>Lịch ngày</span>
         </button>
       </div>
 
@@ -1448,6 +1630,108 @@
     let pendingModalAction = null;
     let attachedDocx = null;
     let attachedImages = [];
+    let fpInstance = null;
+
+    const STATUS_LABELS = {
+      draft: 'Bản nháp',
+      pending_approval: 'Chờ phê duyệt',
+      approved: 'Đã duyệt — Sẵn sàng',
+      scheduled: 'Đang hẹn giờ',
+      publishing: 'Đang xuất bản...',
+      published: 'Đã xuất bản',
+      failed: 'Cần kiểm tra lỗi',
+      cancelled: 'Đã hủy lịch',
+      queued: 'Đang chờ đến giờ',
+      running: 'Đang xử lý',
+      succeeded: 'Hoàn tất'
+    };
+
+    const PLATFORM_NAMES = {
+      vtechfilm: 'vtechfilm.com',
+      onex: 'phimcachnhietdankinh.vn',
+      facebook: 'Facebook Page'
+    };
+
+    function refreshIcons() {
+      if (window.lucide) {
+        window.lucide.createIcons();
+      }
+    }
+
+    function initDatePicker() {
+      const el = document.getElementById('edScheduleAt');
+      if (!el || !window.flatpickr) return;
+      fpInstance = window.flatpickr(el, {
+        enableTime: true,
+        time_24hr: true,
+        dateFormat: "Y-m-d\\TH:i",
+        altInput: true,
+        altFormat: "H:i — \\N\\g\\à\\y d/m/Y",
+        locale: window.flatpickr.l10ns.vn || 'default'
+      });
+    }
+
+    function showToast(message) {
+      const box = document.getElementById('toastContainer');
+      const el = document.createElement('div');
+      el.className = 'toast';
+      el.textContent = message;
+      box.appendChild(el);
+      setTimeout(() => {
+        el.style.opacity = '0';
+        el.style.transition = '0.2s';
+        setTimeout(() => el.remove(), 200);
+      }, 3200);
+    }
+
+    function openConfirmModal(title, message, confirmLabel, onConfirm) {
+      document.getElementById('modalTitle').textContent = title;
+      document.getElementById('modalMessage').textContent = message;
+      const btn = document.getElementById('modalConfirmBtn');
+      btn.textContent = confirmLabel || 'Xác nhận';
+      pendingModalAction = onConfirm;
+      btn.onclick = () => {
+        const fn = pendingModalAction;
+        closeModal();
+        if (fn) fn();
+      };
+      document.getElementById('confirmModal').style.display = 'flex';
+    }
+
+    function closeModal() {
+      document.getElementById('confirmModal').style.display = 'none';
+      pendingModalAction = null;
+    }
+
+    function toggleTheme() {
+      const html = document.documentElement;
+      const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', next);
+      const btn = document.getElementById('themeBtn');
+      btn.innerHTML = `<i data-lucide="${next === 'dark' ? 'sun' : 'moon'}"></i>`;
+      refreshIcons();
+    }
+
+    function getToken() {
+      return document.getElementById('wsSelect').value;
+    }
+
+    function getTz() {
+      return document.getElementById('tzSelect').value;
+    }
+
+    async function apiFetch(path, options = {}) {
+      const headers = Object.assign({
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + getToken()
+      }, options.headers || {});
+      const resp = await fetch(path, Object.assign({}, options, { headers }));
+      const data = await resp.json();
+      if (!resp.ok) {
+        throw new Error(data.message || data.error || 'Có lỗi xảy ra, vui lòng thử lại.');
+      }
+      return data;
+    }
 
     function fileToBase64(file) {
       return new Promise((resolve, reject) => {
@@ -1475,13 +1759,13 @@
         }
       }
       if (!attachedDocx) {
-        showToast('Vui lòng chọn ít nhất 1 file Word (.docx)!', 'error');
+        showToast('Vui lòng chọn ít nhất 1 file Word (.docx)');
         return;
       }
       const bar = document.getElementById('attachmentBar');
       const lbl = document.getElementById('attachmentLabel');
       bar.style.display = 'flex';
-      lbl.textContent = `📎 ${attachedDocx.name}` + (attachedImages.length ? ` (+${attachedImages.length} ảnh đi kèm)` : '');
+      lbl.textContent = `${attachedDocx.name}` + (attachedImages.length ? ` (+${attachedImages.length} ảnh)` : '');
       const inp = document.getElementById('chatInput');
       if (!inp.value.trim()) {
         inp.value = 'Đặt lịch 9 giờ sáng mai đăng lên web chính';
@@ -1504,14 +1788,9 @@
           method: 'POST',
           body: JSON.stringify({ live_mode: isLive })
         });
-        showToast(
-          isLive
-            ? '🌐 Đã bật Chế độ Đăng Thật! Khi bạn bấm Đăng/Lên lịch, bài sẽ được đẩy trực tiếp lên website.'
-            : '🧪 Đã chuyển về Chế độ Nháp an toàn (Sandbox).',
-          isLive ? 'success' : 'info'
-        );
+        showToast(isLive ? 'Đã bật Chế độ Đăng thật (Live Website)' : 'Đã chuyển về Chế độ Nháp (Sandbox)');
       } catch (err) {
-        showToast(err.message, 'error');
+        showToast(err.message);
       }
     }
 
@@ -1529,91 +1808,10 @@
         appendChatBubble('assistant', res.reply, false);
         if (res.content) populateEditor(res.content);
         await refreshLists();
-        showToast('Đã tự động duyệt & thực thi lịch đăng!', 'success');
+        showToast('Đã phê duyệt và cập nhật lịch trình');
       } catch (err) {
-        showToast(err.message, 'error');
+        showToast(err.message);
       }
-    }
-
-    const STATUS_LABELS = {
-      draft: '📝 Bản nháp',
-      pending_approval: '⏳ Chờ bạn duyệt',
-      approved: '✅ Đã duyệt — Sẵn sàng đăng',
-      scheduled: '📅 Đang hẹn giờ đăng',
-      publishing: '🔄 Đang xuất bản...',
-      published: '🎉 Đã đăng thành công',
-      failed: '⚠️ Tạm dừng (Cần kiểm tra)',
-      cancelled: '🚫 Đã hủy lịch',
-      queued: '⏰ Đang chờ đến giờ',
-      running: '🔄 Đang xử lý',
-      succeeded: '🎉 Đã đăng xong'
-    };
-
-    const PLATFORM_NAMES = {
-      vtechfilm: '🌐 Website Chính (vtechfilm.com)',
-      onex: '🛰️ Web Vệ Tinh (phimcachnhietdankinh.vn)',
-      facebook: '📘 Facebook Fanpage'
-    };
-
-    function showToast(message, type = 'info') {
-      const box = document.getElementById('toastContainer');
-      const el = document.createElement('div');
-      el.className = 'toast ' + type;
-      const icon = type === 'success' ? '✅' : (type === 'error' ? '⚠️' : '💡');
-      el.innerHTML = `<span>${icon}</span><div>${message}</div>`;
-      box.appendChild(el);
-      setTimeout(() => {
-        el.style.opacity = '0';
-        el.style.transition = '0.25s';
-        setTimeout(() => el.remove(), 250);
-      }, 3600);
-    }
-
-    function openConfirmModal(title, message, confirmLabel, onConfirm) {
-      document.getElementById('modalTitle').textContent = title;
-      document.getElementById('modalMessage').textContent = message;
-      const btn = document.getElementById('modalConfirmBtn');
-      btn.textContent = confirmLabel || 'Xác nhận';
-      pendingModalAction = onConfirm;
-      btn.onclick = () => {
-        const fn = pendingModalAction;
-        closeModal();
-        if (fn) fn();
-      };
-      document.getElementById('confirmModal').style.display = 'flex';
-    }
-
-    function closeModal() {
-      document.getElementById('confirmModal').style.display = 'none';
-      pendingModalAction = null;
-    }
-
-    function toggleTheme() {
-      const html = document.documentElement;
-      const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-      html.setAttribute('data-theme', next);
-      document.getElementById('themeBtn').textContent = next === 'dark' ? '☀️' : '🌙';
-    }
-
-    function getToken() {
-      return document.getElementById('wsSelect').value;
-    }
-
-    function getTz() {
-      return document.getElementById('tzSelect').value;
-    }
-
-    async function apiFetch(path, options = {}) {
-      const headers = Object.assign({
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer ' + getToken()
-      }, options.headers || {});
-      const resp = await fetch(path, Object.assign({}, options, { headers }));
-      const data = await resp.json();
-      if (!resp.ok) {
-        throw new Error(data.message || data.error || 'Có lỗi xảy ra, vui lòng thử lại.');
-      }
-      return data;
     }
 
     function formatBubbleHtml(text) {
@@ -1622,7 +1820,7 @@
         .replace(/</g, '&lt;')
         .replace(/>/g, '&gt;');
       safe = safe.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
-      safe = safe.replace(/`([^`]+)`/g, '<code style="background:rgba(0,0,0,0.06);padding:2px 5px;border-radius:4px;font-size:12px;">$1</code>');
+      safe = safe.replace(/`([^`]+)`/g, '<code style="background:rgba(15,23,42,0.07);padding:2px 5px;border-radius:4px;font-size:11.5px;">$1</code>');
       safe = safe.replace(/\n/g, '<br>');
       return safe;
     }
@@ -1644,9 +1842,9 @@
         const actBar = document.createElement('div');
         actBar.className = 'bubble-actions';
         actBar.innerHTML = `
-          <button class="chip" style="border-color:var(--success);color:var(--success);font-weight:700;" onclick="approveAndAutoRun()">✅ Duyệt &amp; Tự động Lên lịch / Đăng</button>
-          <button class="chip" onclick="switchStudioMode('edit')">✏️ Tự chỉnh sửa</button>
-          <button class="chip" onclick="sendQuick('Đăng bài này lên website vào 9 giờ sáng mai.')">📅 Hẹn 9h sáng mai</button>
+          <button class="chip" style="border-color:var(--text-main);color:var(--text-main);font-weight:600;" onclick="approveAndAutoRun()">✓ Duyệt &amp; Lên lịch ngay</button>
+          <button class="chip" onclick="switchStudioMode('edit')">Chỉnh sửa</button>
+          <button class="chip" onclick="sendQuick('Đăng bài này lên website vào 9 giờ sáng mai.')">Hẹn 09:00 sáng mai</button>
         `;
         bubble.appendChild(actBar);
       }
@@ -1682,7 +1880,7 @@
             message: msg || `Tải lên file ${attachedDocx.name} lên web chính`,
             timezone: getTz()
           };
-          appendChatBubble('user', `📎 [${attachedDocx.name}${attachedImages.length ? ' +' + attachedImages.length + ' ảnh' : ''}] ${payload.message}`);
+          appendChatBubble('user', `[Đính kèm: ${attachedDocx.name}${attachedImages.length ? ' +' + attachedImages.length + ' ảnh' : ''}] ${payload.message}`);
           clearAttachments();
           res = await apiFetch('/api/upload-docx', {
             method: 'POST',
@@ -1709,8 +1907,8 @@
         await refreshLists();
       } catch (err) {
         typing.style.display = 'none';
-        appendChatBubble('assistant', '⚠️ ' + err.message, false);
-        showToast(err.message, 'error');
+        appendChatBubble('assistant', err.message, false);
+        showToast(err.message);
       }
     }
 
@@ -1745,9 +1943,7 @@
       document.getElementById('modeBtnEdit').classList.toggle('active', isEdit);
       document.getElementById('previewPane').style.display = isEdit ? 'none' : 'flex';
       document.getElementById('editPane').style.display = isEdit ? 'flex' : 'none';
-      if (!isEdit) {
-        syncLiveCounters();
-      }
+      if (!isEdit) syncLiveCounters();
     }
 
     function selectPlatformCard(plat) {
@@ -1796,9 +1992,13 @@
       d.setHours(hour, minute, 0, 0);
       const pad = n => String(n).padStart(2, '0');
       const localIso = `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
-      document.getElementById('edScheduleAt').value = localIso;
+      if (fpInstance) {
+        fpInstance.setDate(localIso, true);
+      } else {
+        document.getElementById('edScheduleAt').value = localIso;
+      }
       document.getElementById('edRecurrence').value = recurrence || '';
-      showToast(`Đã chọn lịch hẹn: ${pad(d.getDate())}/${pad(d.getMonth() + 1)} lúc ${pad(hour)}:${pad(minute)}`, 'info');
+      showToast(`Đã chọn lịch hẹn: ${pad(hour)}:${pad(minute)} ngày ${pad(d.getDate())}/${pad(d.getMonth() + 1)}`);
     }
 
     function populateEditor(item) {
@@ -1817,13 +2017,13 @@
       if (item.external_url) {
         resBanner.style.display = 'block';
         resBanner.style.background = 'var(--success-soft)';
-        resBanner.style.border = '1px solid rgba(16, 185, 129, 0.35)';
-        resBanner.innerHTML = `🎉 <strong>Bài viết đã được xuất bản thành công!</strong> Xem tại: <a href="${item.external_url}" target="_blank" style="color:var(--success);font-weight:700;">${item.external_url} ↗</a>`;
+        resBanner.style.border = '1px solid var(--success-border)';
+        resBanner.innerHTML = `<strong>Đã xuất bản:</strong> <a href="${item.external_url}" target="_blank" style="color:var(--success);font-weight:600;">${item.external_url} ↗</a>`;
       } else if (item.error_message) {
         resBanner.style.display = 'block';
         resBanner.style.background = 'var(--danger-soft)';
-        resBanner.style.border = '1px solid rgba(239, 68, 68, 0.35)';
-        resBanner.innerHTML = `⚠️ <strong>Thông báo cần lưu ý:</strong> ${item.error_message}`;
+        resBanner.style.border = '1px solid rgba(225, 29, 72, 0.25)';
+        resBanner.innerHTML = `<span style="color:var(--danger);font-weight:500;">${item.error_message}</span>`;
       } else {
         resBanner.style.display = 'none';
       }
@@ -1836,10 +2036,12 @@
       document.getElementById('edBodyHtml').value = item.body_html || '';
       document.getElementById('edRecurrence').value = item.recurrence_rule || '';
 
-      if (item.scheduled_at) {
-        document.getElementById('edScheduleAt').value = item.scheduled_at.slice(0, 16);
+      const schedVal = item.scheduled_at ? item.scheduled_at.slice(0, 16) : '';
+      if (fpInstance) {
+        if (schedVal) fpInstance.setDate(schedVal, false);
+        else fpInstance.clear();
       } else {
-        document.getElementById('edScheduleAt').value = '';
+        document.getElementById('edScheduleAt').value = schedVal;
       }
 
       selectPlatformCard(item.platform || 'vtechfilm');
@@ -1848,29 +2050,28 @@
       const v = item.validation || {};
       const score = v.score ?? 100;
       const scoreBadge = document.getElementById('seoScoreBadge');
-      scoreBadge.textContent = `${v.passed ? '✓ Đạt chuẩn' : '⚠ Cần chỉnh sửa'}: ${score}/100 điểm`;
-      scoreBadge.style.background = v.passed ? 'var(--success-soft)' : 'var(--warning-soft)';
-      scoreBadge.style.color = v.passed ? 'var(--success)' : '#b45309';
+      scoreBadge.textContent = `Preflight SEO: ${score}/100`;
+      scoreBadge.className = 'status-pill ' + (v.passed ? 'status-published' : 'status-pending_approval');
 
-      const fails = (v.fails || []).map(f => `<div style="color:var(--danger);margin-top:4px;">❌ ${f}</div>`).join('');
-      const warns = (v.warns || []).map(w => `<div style="color:#d97706;margin-top:4px;">💡 Gợi ý tối ưu: ${w}</div>`).join('');
+      const fails = (v.fails || []).map(f => `<div style="color:var(--danger);margin-top:4px;">• ${f}</div>`).join('');
+      const warns = (v.warns || []).map(w => `<div style="color:var(--warning);margin-top:4px;">• ${w}</div>`).join('');
       document.getElementById('validationBox').innerHTML = `
-        <div style="font-size:13px;font-weight:700;margin-bottom:4px;">
-          🛡️ Kiểm tra Chất lượng &amp; SEO tự động: ${v.passed ? '<span style="color:var(--success);">Tất cả tiêu chí hợp lệ!</span>' : '<span style="color:var(--danger);">Vui lòng kiểm tra các mục bên dưới</span>'}
+        <div style="font-weight:600;margin-bottom:4px;color:var(--text-main);">
+          Kiểm định Preflight &amp; Chuẩn SEO: ${v.passed ? '<span style="color:var(--success);">Đạt tất cả tiêu chí</span>' : '<span style="color:var(--danger);">Cần bổ sung</span>'}
         </div>
-        ${fails || '<div style="font-size:12.5px;color:var(--text-muted);">✓ Đúng hotline chuẩn VTECH (0967 725 714 / 0522 187 187) • ✓ Đầy đủ thẻ mô tả ảnh • ✓ Không trùng lặp SEO</div>'}
+        ${fails || '<div style="font-size:12px;color:var(--text-muted);">✓ Đúng hotline chuẩn VTECH (0967 725 714 / 0967 707 383 / 0522 187 187) &nbsp;•&nbsp; ✓ Đầy đủ thẻ alt ảnh &nbsp;•&nbsp; ✓ Không trùng lặp SEO</div>'}
         ${warns}
       `;
 
-      // Highlight buttons based on approval state
       const btnApprove = document.getElementById('btnApprove');
       if (item.reviewed) {
-        btnApprove.textContent = '✓ Đã Duyệt Bài';
+        btnApprove.innerHTML = `<i data-lucide="check"></i><span>Đã phê duyệt</span>`;
         btnApprove.disabled = true;
       } else {
-        btnApprove.textContent = '✅ Bước 1: Duyệt Bài Viết';
+        btnApprove.innerHTML = `<i data-lucide="check-circle-2"></i><span>Phê duyệt bài viết</span>`;
         btnApprove.disabled = false;
       }
+      refreshIcons();
     }
 
     async function saveActiveEdits() {
@@ -1893,15 +2094,15 @@
         populateEditor(res.item);
         switchStudioMode('preview');
         await refreshLists();
-        showToast('Đã lưu chỉnh sửa! Hãy bấm "Duyệt Bài Viết" để xác nhận.', 'success');
+        showToast('Đã lưu chỉnh sửa. Vui lòng bấm Phê duyệt bài viết.');
       } catch (err) {
-        showToast(err.message, 'error');
+        showToast(err.message);
       }
     }
 
     async function regenerateActive() {
       if (!activeContentId) return;
-      showToast('Đang yêu cầu AI viết lại nội dung mới...', 'info');
+      showToast('Đang yêu cầu AI viết lại nội dung...');
       try {
         const res = await apiFetch(`/api/content/${activeContentId}/regenerate`, {
           method: 'POST',
@@ -1909,9 +2110,9 @@
         });
         populateEditor(res.item);
         await refreshLists();
-        showToast('Đã làm mới nội dung bài viết!', 'success');
+        showToast('Đã tạo lại nội dung mới');
       } catch (err) {
-        showToast(err.message, 'error');
+        showToast(err.message);
       }
     }
 
@@ -1921,9 +2122,9 @@
         const res = await apiFetch(`/api/content/${activeContentId}/approve`, { method: 'POST' });
         populateEditor(res.item);
         await refreshLists();
-        showToast('Đã duyệt bài viết! Bạn có thể bấm Đăng Ngay hoặc Hẹn Giờ.', 'success');
+        showToast('Đã phê duyệt bài viết');
       } catch (err) {
-        showToast(err.message, 'error');
+        showToast(err.message);
       }
     }
 
@@ -1931,22 +2132,22 @@
       if (!activeContentId) return;
       const current = cachedContents.find(x => x.id === activeContentId);
       if (current && !current.reviewed) {
-        showToast('Vui lòng bấm "✅ Bước 1: Duyệt Bài Viết" trước khi đăng nhé!', 'error');
+        showToast('Vui lòng bấm "Phê duyệt bài viết" trước khi đăng');
         return;
       }
       openConfirmModal(
-        '🚀 Xác nhận Đăng bài ngay',
+        'Xác nhận xuất bản ngay',
         'Bài viết đã được duyệt. Bạn có muốn xuất bản ngay lên nền tảng đích không?',
-        'Đăng ngay bây giờ',
+        'Xuất bản ngay',
         async () => {
           try {
             const res = await apiFetch(`/api/content/${activeContentId}/publish`, { method: 'POST' });
             populateEditor(res.content);
             await refreshLists();
-            showToast('Xuất bản bài viết thành công!', 'success');
-            appendChatBubble('assistant', `🎉 Bài viết **${res.content.title}** đã được xuất bản thành công!\n🔗 Link: ${res.content.external_url}`);
+            showToast('Xuất bản bài viết thành công');
+            appendChatBubble('assistant', `Đã xuất bản bài viết **${res.content.title}** thành công!\nLink: ${res.content.external_url}`);
           } catch (err) {
-            showToast(err.message, 'error');
+            showToast(err.message);
             await refreshLists();
           }
         }
@@ -1957,12 +2158,12 @@
       if (!activeContentId) return;
       const current = cachedContents.find(x => x.id === activeContentId);
       if (current && !current.reviewed) {
-        showToast('Hãy bấm "✅ Bước 1: Duyệt Bài Viết" trước khi hẹn giờ đăng nhé!', 'error');
+        showToast('Vui lòng bấm "Phê duyệt bài viết" trước khi hẹn giờ');
         return;
       }
       const dt = document.getElementById('edScheduleAt').value;
       if (!dt) {
-        showToast('Vui lòng chọn Ngày & Giờ đăng ở mục số 2 (hoặc bấm nút chọn nhanh 9:00 Sáng mai).', 'error');
+        showToast('Vui lòng chọn thời điểm xuất bản (hoặc bấm nút chọn nhanh 09:00 Sáng mai)');
         return;
       }
       try {
@@ -1977,18 +2178,18 @@
         populateEditor(res.item);
         await refreshLists();
         switchRightTab('jobs');
-        showToast('Đã lên lịch hẹn giờ đăng thành công!', 'success');
+        showToast('Đã lưu lịch hẹn giờ đăng');
       } catch (err) {
-        showToast(err.message, 'error');
+        showToast(err.message);
       }
     }
 
     function deleteActiveContent() {
       if (!activeContentId) return;
       openConfirmModal(
-        '🗑️ Xóa bài viết này?',
-        'Bài viết và các lịch hẹn liên quan sẽ bị xóa khỏi danh sách. Bạn có chắc chắn muốn xóa không?',
-        'Xóa vĩnh viễn',
+        'Xóa bài viết',
+        'Bài viết này và các lịch hẹn liên quan sẽ bị xóa. Bạn có chắc chắn muốn tiếp tục?',
+        'Xóa bài viết',
         async () => {
           try {
             await apiFetch(`/api/content/${activeContentId}?confirmed=true`, { method: 'DELETE' });
@@ -1998,9 +2199,9 @@
             document.getElementById('studioFooter').style.display = 'none';
             updateStepper(null);
             await refreshLists();
-            showToast('Đã xóa bài viết.', 'info');
+            showToast('Đã xóa bài viết');
           } catch (err) {
-            showToast(err.message, 'error');
+            showToast(err.message);
           }
         }
       );
@@ -2009,9 +2210,9 @@
     function cancelJob(jobId, ev) {
       ev.stopPropagation();
       openConfirmModal(
-        '🚫 Hủy lịch hẹn giờ?',
-        'Bài viết sẽ không tự động đăng vào giờ đã hẹn nữa (nhưng bản nháp vẫn được giữ lại).',
-        'Đồng ý hủy lịch',
+        'Hủy lịch hẹn giờ',
+        'Bài viết sẽ được đưa về trạng thái Đã duyệt và không tự động đăng vào giờ hẹn nữa.',
+        'Hủy lịch hẹn',
         async () => {
           try {
             await apiFetch(`/api/jobs/${jobId}/cancel`, {
@@ -2019,9 +2220,9 @@
               body: JSON.stringify({ confirmed: true })
             });
             await refreshLists();
-            showToast('Đã hủy lịch hẹn giờ đăng.', 'info');
+            showToast('Đã hủy lịch hẹn');
           } catch (err) {
-            showToast(err.message, 'error');
+            showToast(err.message);
           }
         }
       );
@@ -2032,9 +2233,9 @@
       try {
         await apiFetch(`/api/jobs/${jobId}/retry`, { method: 'POST' });
         await refreshLists();
-        showToast('Đã thực hiện chạy lại lịch đăng thành công!', 'success');
+        showToast('Đã thực hiện chạy lại lịch đăng');
       } catch (err) {
-        showToast(err.message, 'error');
+        showToast(err.message);
       }
     }
 
@@ -2063,8 +2264,8 @@
       if (currentRightTab === 'drafts') {
         if (!cachedContents.length) {
           box.innerHTML = `
-            <div style="text-align:center;padding:32px 16px;color:var(--text-muted);font-size:13px;">
-              📭 Chưa có bài viết nào.<br>Hãy nhắn yêu cầu vào khung Chat bên trái để bắt đầu!
+            <div style="text-align:center;padding:40px 16px;color:var(--text-muted);font-size:12.5px;">
+              Chưa có bài viết nào trong Workspace này.
             </div>`;
           return;
         }
@@ -2072,21 +2273,21 @@
           <div class="post-card ${c.id === activeContentId ? 'active' : ''}" onclick='selectContentById("${c.id}")'>
             <div class="post-card-title">${c.title || '(Chưa có tiêu đề)'}</div>
             <div class="post-card-meta">
-              <span class="status-pill status-${c.status}" style="font-size:11px;padding:3px 9px;">
+              <span class="status-pill status-${c.status}">
                 ${STATUS_LABELS[c.status] || c.status}
               </span>
               <span>${PLATFORM_NAMES[c.platform] || c.platform}</span>
             </div>
-            ${c.scheduled_at ? `<div style="margin-top:6px;font-size:11.5px;color:#7e22ce;font-weight:600;">⏰ Hẹn đăng: ${c.scheduled_at.slice(0, 16).replace('T', ' ')}</div>` : ''}
-            ${c.external_url ? `<div style="margin-top:6px;font-size:11.5px;color:var(--success);font-weight:600;">🔗 Đã đăng: ${c.external_url}</div>` : ''}
-            ${c.error_message ? `<div style="margin-top:6px;font-size:11.5px;color:var(--danger);">⚠️ ${c.error_message}</div>` : ''}
+            ${c.scheduled_at ? `<div style="margin-top:7px;font-size:11.5px;color:var(--brand);font-weight:600;">Hẹn giờ: ${c.scheduled_at.slice(0, 16).replace('T', ' ')}</div>` : ''}
+            ${c.external_url ? `<div style="margin-top:7px;font-size:11.5px;color:var(--success);font-weight:500;">${c.external_url}</div>` : ''}
+            ${c.error_message ? `<div style="margin-top:7px;font-size:11.5px;color:var(--danger);">${c.error_message}</div>` : ''}
           </div>
         `).join('');
       } else if (currentRightTab === 'jobs') {
         if (!cachedJobs.length) {
           box.innerHTML = `
-            <div style="text-align:center;padding:32px 16px;color:var(--text-muted);font-size:13px;">
-              ⏰ Chưa có lịch hẹn giờ nào.
+            <div style="text-align:center;padding:40px 16px;color:var(--text-muted);font-size:12.5px;">
+              Chưa có lịch hẹn giờ nào đang chờ.
             </div>`;
           return;
         }
@@ -2094,19 +2295,19 @@
           <div class="post-card" onclick='selectContentById("${j.content_id}")'>
             <div class="post-card-title">${j.content_title || j.content_id}</div>
             <div class="post-card-meta">
-              <span class="status-pill status-${j.status}" style="font-size:11px;padding:3px 9px;">
+              <span class="status-pill status-${j.status}">
                 ${STATUS_LABELS[j.status] || j.status}
               </span>
-              <span>🕒 ${j.scheduled_at_local.slice(0, 16).replace('T', ' ')}</span>
+              <span style="font-weight:600;color:var(--text-main);">${j.scheduled_at_local.slice(0, 16).replace('T', ' ')}</span>
             </div>
             <div style="margin-top:6px;font-size:11.5px;color:var(--text-muted);">
               ${PLATFORM_NAMES[j.platform] || j.platform}
-              ${j.recurrence_rule ? ` • 🔁 Lặp lại: <strong>${j.recurrence_rule}</strong>` : ''}
+              ${j.recurrence_rule ? ` • Chu kỳ: <strong>${j.recurrence_rule}</strong>` : ''}
             </div>
-            ${j.last_error_message ? `<div style="margin-top:6px;font-size:11.5px;color:var(--danger);">⚠️ ${j.last_error_message}</div>` : ''}
+            ${j.last_error_message ? `<div style="margin-top:6px;font-size:11.5px;color:var(--danger);">${j.last_error_message}</div>` : ''}
             <div style="margin-top:10px;display:flex;gap:6px;">
-              ${j.status === 'queued' ? `<button class="btn btn-danger-ghost btn-sm" onclick="cancelJob('${j.id}', event)">🚫 Hủy lịch hẹn</button>` : ''}
-              ${j.status === 'failed' ? `<button class="btn btn-primary btn-sm" onclick="retryJob('${j.id}', event)">🔄 Chạy thử lại</button>` : ''}
+              ${j.status === 'queued' ? `<button class="btn btn-outline btn-sm" onclick="cancelJob('${j.id}', event)">Hủy lịch</button>` : ''}
+              ${j.status === 'failed' ? `<button class="btn btn-dark btn-sm" onclick="retryJob('${j.id}', event)">Thử lại</button>` : ''}
             </div>
           </div>
         `).join('');
@@ -2119,19 +2320,20 @@
         });
         const days = Object.keys(groups).sort();
         if (!days.length) {
-          box.innerHTML = `<div style="text-align:center;padding:32px 16px;color:var(--text-muted);font-size:13px;">🗓️ Chưa có bài viết nào trên lịch tháng.</div>`;
+          box.innerHTML = `<div style="text-align:center;padding:40px 16px;color:var(--text-muted);font-size:12.5px;">Lịch trống.</div>`;
           return;
         }
         box.innerHTML = days.map(day => `
           <div class="post-card" style="cursor:default;">
-            <div style="font-size:13px;font-weight:700;color:var(--primary);margin-bottom:8px;border-bottom:1px solid var(--border);padding-bottom:6px;">
-              📅 Ngày ${day.split('-').reverse().join('/')} (${groups[day].length} bài)
+            <div style="font-size:12.5px;font-weight:700;color:var(--text-main);margin-bottom:8px;border-bottom:1px solid var(--border);padding-bottom:6px;display:flex;justify-content:space-between;">
+              <span>Ngày ${day.split('-').reverse().join('/')}</span>
+              <span style="color:var(--text-muted);font-weight:500;">${groups[day].length} bài</span>
             </div>
             ${groups[day].map(j => `
-              <div style="padding:7px 0;border-bottom:1px dashed var(--border);font-size:12.5px;cursor:pointer;" onclick='selectContentById("${j.content_id}")'>
+              <div style="padding:7px 0;border-bottom:1px dashed var(--border);font-size:12px;cursor:pointer;" onclick='selectContentById("${j.content_id}")'>
                 <div style="display:flex;justify-content:space-between;align-items:center;">
-                  <strong>🕒 ${j.scheduled_at_local.slice(11, 16)}</strong>
-                  <span class="status-pill status-${j.status}" style="font-size:10.5px;padding:2px 7px;">${STATUS_LABELS[j.status] || j.status}</span>
+                  <strong>${j.scheduled_at_local.slice(11, 16)}</strong>
+                  <span class="status-pill status-${j.status}" style="font-size:10.5px;padding:1px 7px;">${STATUS_LABELS[j.status] || j.status}</span>
                 </div>
                 <div style="margin-top:3px;color:var(--text-secondary);">${j.content_title || j.content_id}</div>
               </div>
@@ -2153,10 +2355,12 @@
       document.getElementById('studioFooter').style.display = 'none';
       updateStepper(null);
       await refreshLists();
-      showToast('Đã chuyển đổi không gian làm việc (Workspace).', 'info');
+      showToast('Đã chuyển đổi Workspace');
     }
 
     window.addEventListener('DOMContentLoaded', async () => {
+      refreshIcons();
+      initDatePicker();
       await refreshLists();
       if (cachedContents.length > 0) {
         populateEditor(cachedContents[0]);
